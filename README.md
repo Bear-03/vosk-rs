@@ -16,7 +16,7 @@ The Vosk-API dynamic libraries need to be discoverable by the rust linker. Downl
 #### On Windows
 
 -   Move them to a folder in your PATH variable.
--   Create a [build script](https://doc.rust-lang.org/cargo/reference/build-scripts.html) and
+-   Create a [build script][build-script-explanation] and
     provide cargo with the path to the libraries with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
 
 ### On Linux
@@ -47,3 +47,10 @@ The libraries also have to be discoverable by the executable at runtime.
     `LD_LIBRARY_PATH` environment variables, like so: `LD_LIBRARY_PATH=/path/to/the/libraries:$LD_LIBRARY_PATH`.
     Note that this environment does not have to be the same added to `LIBRARY_PATH` in the compilation step.
 
+
+To run something quick (e.g. an [example](vosk/examples/)), linking the libraries with a compiler flag will be enough.
+That can be done with `RUSTFLAGS=-L/path/to/the/libs cargo run` on Linux and
+`$env:RUSTFLAGS="-L/path/to/the/libs"; cargo run` on Windows (powershell). However, this is not recommended for your own
+projects as [build scripts][build-script-explanation] is much more practical.
+
+[build-script-explanation]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
