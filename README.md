@@ -7,4 +7,4 @@ Rust bindings for the [Vosk API Speech Recognition](https://github.com/alphacep/
 ## Setup and usage
 
 Both the [Safe bindings](vosk/) and the [Raw bindings](vosk-sys/) need the same setup.
-Read the steps [here](vosk/README.md)
+Read the steps [here](vosk/README.md).
