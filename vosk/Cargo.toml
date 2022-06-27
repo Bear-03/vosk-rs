@@ -1,0 +1,14 @@
+[package]
+name = "vosk"
+version = "0.1.0"
+edition = "2021"
+authors = ["Bear_03"]
+description = "Safe wrapper around the Vosk API Speech Recognition library"
+keywords = ["speech", "speech-to-text", "stt"]
+categories = ["multimedia::audio"]
+
+[dependencies]
+vosk-sys = { path = "../vosk-sys" }
+serde_json = "1.0.81"
+serde = { version = "1.0.137", features = ["derive"] }
+
