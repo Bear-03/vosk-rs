@@ -1,5 +1,7 @@
 # Vosk-rs
 
+[![GitHub](https://img.shields.io/github/license/Bear-03/vosk-rs)](https://github.com/Bear-03/vosk-rs)
+
 Rust bindings for the [Vosk API Speech Recognition](https://github.com/alphacep/vosk-api) library.
 
 ## Setup and usage

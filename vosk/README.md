@@ -1,5 +1,9 @@
 # Vosk
 
+[![Latest release on crates.io](https://img.shields.io/crates/v/vosk.svg)](https://crates.io/crates/vosk)
+[![Documentation on docs.rs](https://docs.rs/vosk/badge.svg)](https://docs.rs/vosk)
+[![GitHub](https://img.shields.io/github/license/Bear-03/vosk-rs)](https://github.com/Bear-03/vosk-rs)
+
 Raw FFI bindings around the [Vosk API Speech Recognition](https://github.com/alphacep/vosk-api) library.
 
 ## Setup and usage
