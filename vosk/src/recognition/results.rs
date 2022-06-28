@@ -62,6 +62,16 @@ pub struct CompleteResultMultiple<'a> {
     pub alternatives: Vec<Alternative<'a>>,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+pub struct SpeakerInfo {
+    /// Speaker vectors used for speaker identification.
+    #[serde(rename = "spk")]
+    pub vector: Vec<f32>,
+    /// Data frames in which the speaker was not in silence.
+    #[serde(rename = "spk_frames")]
+    pub frames: u16,
+}
+
 /// Recognition result if [`Recognizer::set_max_alternatives`]
 /// is passed a zero (default).
 ///
@@ -70,22 +80,18 @@ pub struct CompleteResultMultiple<'a> {
 /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
 #[derive(Debug, Clone, Deserialize)]
 pub struct CompleteResultSingle<'a> {
-    /// Speaker vectors used for speaker identification.
+    /// Data useful for speaker identification
     ///
     /// Enabled if the [`Recognizer`] was passed a [`SpeakerModel`]  with
-    /// [`Recognizer::new_with_speaker`] or [`Recognizer::set_speaker_model`]
-    /// ([`None`] otherwise)
+    /// [`Recognizer::new_with_speaker`] or [`Recognizer::set_speaker_model`],
+    /// [`None`] otherwise
     ///
     /// [`SpeakerModel`]: crate::SpeakerModel
     /// [`Recognizer`]: crate::Recognizer
     /// [`Recognizer::new_with_speaker`]: crate::Recognizer::new_with_speaker
     /// [`Recognizer::set_speaker_model`]: crate::Recognizer::set_speaker_model
-    pub spk: Option<Vec<f32>>,
-    /// Data frames in which the speaker was speaking (not in silence).
-    /// Enabled under the same conditions as [`spk`] ([`None`] otherwise)
-    ///
-    /// [`spk`]: Self::spk
-    pub spk_frames: Option<u16>,
+    #[serde(flatten)]
+    pub speaker_info: Option<SpeakerInfo>,
     /// Collection of words present in [`text`] with metadata about them.
     ///
     /// Empty unless [`Recognizer::set_words`] is passed `true`.
