@@ -1,4 +1,7 @@
-use std::time::Duration;
+use std::{
+    sync::{Arc, Mutex},
+    time::Duration,
+};
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
@@ -28,34 +31,39 @@ fn main() {
     recognizer.set_words(true);
     recognizer.set_partial_words(true);
 
+    let recognizer = Arc::new(Mutex::new(recognizer));
+
     let err_fn = move |err| {
         eprintln!("an error occurred on stream: {}", err);
     };
 
+    let recognizer_clone = recognizer.clone();
     let stream = match config.sample_format() {
         cpal::SampleFormat::F32 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[f32], _| recognize(&mut recognizer, data, channels),
+            move |data: &[f32], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
         ),
         cpal::SampleFormat::U16 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[u16], _| recognize(&mut recognizer, data, channels),
+            move |data: &[u16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
         ),
         cpal::SampleFormat::I16 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[i16], _| recognize(&mut recognizer, data, channels),
+            move |data: &[i16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
         ),
     }
     .expect("Could not build stream");
 
     stream.play().expect("Could not play stream");
-
     println!("Recording...");
 
     std::thread::sleep(RECORD_DURATION);
+    drop(stream);
+
+    println!("{:#?}", recognizer.lock().unwrap().final_result());
 }
 
 fn recognize<T: Sample + ToSample<i16>>(
