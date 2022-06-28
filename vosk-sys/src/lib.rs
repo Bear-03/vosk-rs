@@ -35,6 +35,8 @@ pub struct VoskBatchRecognizer {
     _unused: [u8; 0],
 }
 
+#[cfg_attr(not(target_os = "windows"), link(name = "vosk"))]
+#[cfg_attr(target_os = "windows", link(name = "libvosk"))]
 extern "C" {
     #[doc = " Loads model data from the file and returns the model object"]
     #[doc = ""]
