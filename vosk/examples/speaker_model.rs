@@ -1,16 +1,30 @@
+//! Run with:
+//! cargo run --example read_wav <model path> <speaker model path> <wav path>
+//! e.g. "cargo run --example speaker_model /home/user/stt/model /home/user/stt/speaker_model /home/user/stt/test.wav"
+//!
+//! Check out the "Run the examples" section in the README to know how to link the vosk dynamic
+//! libaries to the examples
+
+use std::env;
+
 use hound::WavReader;
 use vosk::{Model, Recognizer, SpeakerModel};
 
-const MODEL_PATH: &str = "../stt-tts/resources/model";
-const SPEAKER_MODEL_PATH: &str = "C:/Users/user/Downloads/spk-model";
-const WAV_PATH: &str = "../stt-tests-two/test.wav";
-
 fn main() {
-    let mut reader = WavReader::open(WAV_PATH).unwrap();
+    let mut args = env::args();
+    args.next();
+
+    let model_path = args.next().expect("A model path was not provided");
+    let speaker_model_path = args.next().expect("A speaker model path was not provided");
+    let wav_path = args
+        .next()
+        .expect("A path for the wav file to be read was not provieded");
+
+    let mut reader = WavReader::open(wav_path).unwrap();
     let samples: Vec<i16> = reader.samples().map(|s| s.unwrap()).collect();
 
-    let model = Model::new(MODEL_PATH).unwrap();
-    let spk_model = SpeakerModel::new(SPEAKER_MODEL_PATH).unwrap();
+    let model = Model::new(model_path).unwrap();
+    let spk_model = SpeakerModel::new(speaker_model_path).unwrap();
     let mut recognizer =
         Recognizer::new_with_speaker(&model, reader.spec().sample_rate as f32, &spk_model).unwrap();
 
@@ -23,7 +37,6 @@ fn main() {
 
     for sample in samples.chunks(100) {
         recognizer.accept_waveform(sample);
-
         println!("{:#?}", recognizer.partial_result());
     }
 

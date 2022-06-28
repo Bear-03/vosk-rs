@@ -1,14 +1,28 @@
-use hound::WavReader;
-use vosk::{DecodingState, Model, Recognizer};
+//! Run with:
+//! cargo run --example read_wav <model path> <wav path>
+//! e.g. "cargo run --example read_wav /home/user/stt/model /home/user/stt/test.wav"
+//!
+//! Check out the "Run the examples" section in the README to know how to link the vosk dynamic
+//! libaries to the examples
 
-const MODEL_PATH: &str = "../stt-tts/resources/model";
-const WAV_PATH: &str = "audio.wav";
+use std::env;
+
+use hound::WavReader;
+use vosk::{Model, Recognizer};
 
 fn main() {
-    let mut reader = WavReader::open(WAV_PATH).unwrap();
+    let mut args = env::args();
+    args.next();
+
+    let model_path = args.next().expect("A model path was not provided");
+    let wav_path = args
+        .next()
+        .expect("A path for the wav file to be read was not provieded");
+
+    let mut reader = WavReader::open(wav_path).unwrap();
     let samples: Vec<i16> = reader.samples().map(|s| s.unwrap()).collect();
 
-    let model = Model::new(MODEL_PATH).unwrap();
+    let model = Model::new(model_path).unwrap();
     let mut recognizer = Recognizer::new(&model, reader.spec().sample_rate as f32).unwrap();
 
     recognizer.set_max_alternatives(10);
@@ -16,13 +30,8 @@ fn main() {
     recognizer.set_partial_words(true);
 
     for sample in samples.chunks(100) {
-        let decoding_state = recognizer.accept_waveform(sample);
-
-        if decoding_state == DecodingState::Finalized {
-            println!("{:#?}", recognizer.result());
-        } else {
-            println!("{:#?}", recognizer.partial_result());
-        }
+        recognizer.accept_waveform(sample);
+        println!("{:#?}", recognizer.partial_result());
     }
 
     println!("{:#?}", recognizer.final_result().multiple().unwrap());

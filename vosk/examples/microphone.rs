@@ -1,4 +1,12 @@
+//! Run with:
+//! cargo run --example microphone <model path> <duration>
+//! e.g. "cargo run --example microphone /home/user/stt/model 10"
+//!
+//! Check out the "Run the examples" section in the README to know how to link the vosk dynamic
+//! libaries to the examples
+
 use std::{
+    env,
     sync::{Arc, Mutex},
     time::Duration,
 };
@@ -10,10 +18,18 @@ use cpal::{
 use dasp::{sample::ToSample, Sample};
 use vosk::{Model, Recognizer};
 
-const MODEL_PATH: &str = "../stt-tts/resources/model";
-const RECORD_DURATION: Duration = Duration::from_secs(10);
-
 fn main() {
+    let mut args = env::args();
+    args.next();
+
+    let model_path = args.next().expect("A model path was not provided");
+    let record_duration = Duration::from_secs(
+        args.next()
+            .expect("A recording duration was not provided")
+            .parse()
+            .expect("Invalid recording duration"),
+    );
+
     let audio_input_device = cpal::default_host()
         .default_input_device()
         .expect("No input device connected");
@@ -23,7 +39,7 @@ fn main() {
         .expect("Failed to load default input config");
     let channels = config.channels();
 
-    let model = Model::new(MODEL_PATH).expect("Could not create a model");
+    let model = Model::new(model_path).expect("Could not create a model");
     let mut recognizer = Recognizer::new(&model, config.sample_rate().0 as f32)
         .expect("Could not create a Recognizer");
 
@@ -60,7 +76,7 @@ fn main() {
     stream.play().expect("Could not play stream");
     println!("Recording...");
 
-    std::thread::sleep(RECORD_DURATION);
+    std::thread::sleep(record_duration);
     drop(stream);
 
     println!("{:#?}", recognizer.lock().unwrap().final_result());
