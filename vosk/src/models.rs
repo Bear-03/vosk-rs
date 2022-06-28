@@ -15,6 +15,7 @@ impl Model {
     /// if a problem occured.
     ///
     /// * `model_path` - the path to the model directory.
+    #[must_use]
     pub fn new(model_path: impl Into<String>) -> Option<Self> {
         let model_path_c = CString::new(model_path.into()).ok()?;
         let model_ptr = unsafe { vosk_model_new(model_path_c.as_ptr()) };
@@ -27,6 +28,7 @@ impl Model {
     /// If it is not, this returns None.
     ///
     /// Word symbol `0` is for `<epsilon>`.
+    #[must_use]
     pub fn find_word(&mut self, word: &str) -> Option<u16> {
         let word_c = CString::new(word).ok()?;
 
@@ -57,6 +59,7 @@ impl SpeakerModel {
     /// object, or [`None`] if a problem occured.
     ///
     /// * `model_path` - the path to the model in the filesystem.
+    #[must_use]
     pub fn new(model_path: impl Into<String>) -> Option<Self> {
         let model_path_c = CString::new(model_path.into()).ok()?;
         let model_ptr = unsafe { vosk_spk_model_new(model_path_c.as_ptr()) };

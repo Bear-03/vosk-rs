@@ -52,6 +52,7 @@ impl Recognizer {
     /// Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
     ///
     /// [`Model`]: crate::Model
+    #[must_use]
     pub fn new(model: &Model, sample_rate: f32) -> Option<Self> {
         let recognizer_ptr = unsafe { vosk_recognizer_new(model.0.as_ptr(), sample_rate) };
         Some(Self(NonNull::new(recognizer_ptr)?))
@@ -72,6 +73,7 @@ impl Recognizer {
     /// * `spk_model` - Speaker model for speaker identification.
     ///
     /// [`Model`]: crate::Model
+    #[must_use]
     pub fn new_with_speaker(
         model: &Model,
         sample_rate: f32,
@@ -111,6 +113,7 @@ impl Recognizer {
     /// ```
     ///
     /// [`Model`]: crate::Model
+    #[must_use]
     pub fn new_with_grammar(model: &Model, sample_rate: f32, grammar: Vec<String>) -> Option<Self> {
         let grammar_c = CString::new(format!("[{}]", grammar.join(", "))).ok()?;
         let recognizer_ptr =
@@ -198,6 +201,7 @@ impl Recognizer {
     /// [`set_words`]: Self::set_words
     /// [`CompleteResult::Multiple`]: crate::CompleteResult::Multiple
     /// [`CompleteResult::Single`]: crate::CompleteResult::Single
+    #[must_use]
     pub fn result(&mut self) -> CompleteResult {
         self.result_with_function(vosk_recognizer_result)
     }
@@ -208,6 +212,7 @@ impl Recognizer {
     /// If words are enabled (see [`set_partial_words`]), it also returns metadata abut the words.
     ///
     /// [`set_partial_words`]: Self::set_partial_words
+    #[must_use]
     pub fn partial_result(&mut self) -> PartialResult {
         self.result_with_function(vosk_recognizer_partial_result)
     }
@@ -216,6 +221,7 @@ impl Recognizer {
     /// wait for silence and it flushes the data so everything is processed
     ///
     /// [`result`]: Self::result
+    #[must_use]
     pub fn final_result(&mut self) -> CompleteResult {
         self.result_with_function(vosk_recognizer_final_result)
     }

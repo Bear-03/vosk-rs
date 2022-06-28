@@ -127,6 +127,7 @@ impl<'a> CompleteResult<'a> {
     /// Returns the inner [`CompleteResultSingle`] if `self` was [`Single`], and [`None`] otherwise.
     ///
     /// [`Single`]: Self::Single
+    #[must_use]
     pub fn single(self) -> Option<CompleteResultSingle<'a>> {
         match self {
             Self::Single(x) => Some(x),
@@ -137,6 +138,7 @@ impl<'a> CompleteResult<'a> {
     /// Returns the inner [`CompleteResultMultiple`] if `self` was [`Multiple`], and [`None`] otherwise.
     ///
     /// [`Multiple`]: Self::Multiple
+    #[must_use]
     pub fn multiple(self) -> Option<CompleteResultMultiple<'a>> {
         match self {
             Self::Single(_) => None,
