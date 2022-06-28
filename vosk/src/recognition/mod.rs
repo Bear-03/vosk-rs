@@ -15,7 +15,7 @@ mod results;
 /// State of the decodification after processing a chunk of data.
 pub enum DecodingState {
     /// Silence has occured and you can retrieve a new utterance with the [`Recognizer::result`].
-    Completed,
+    Finalized,
     /// Decoding still continues.
     Running,
     /// Decoding failed in some way.
@@ -26,7 +26,7 @@ impl DecodingState {
     /// Returns the variant that corresponds to `value` in C.
     pub(self) fn from_c_int(value: c_int) -> Self {
         match value {
-            1 => Self::Completed,
+            1 => Self::Finalized,
             0 => Self::Running,
             _ => Self::Failed,
         }
@@ -186,7 +186,7 @@ impl Recognizer {
         DecodingState::from_c_int(decoding_state)
     }
 
-    /// Returns speech recognition result, waiting for silence (see [`DecodingState::Completed`]) to give a result.
+    /// Returns speech recognition result, waiting for silence (see [`DecodingState::Finalized`]) to give a result.
     ///
     /// The returned value will be a [`CompleteResult::Single`]
     /// if [`set_max_alternatives`] was passed a 0 (default), and

@@ -18,7 +18,7 @@ fn main() {
     for sample in samples.chunks(100) {
         let decoding_state = recognizer.accept_waveform(sample);
 
-        if decoding_state == DecodingState::Completed {
+        if decoding_state == DecodingState::Finalized {
             println!("{:#?}", recognizer.result());
         } else {
             println!("{:#?}", recognizer.partial_result());
