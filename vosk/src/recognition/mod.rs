@@ -26,7 +26,7 @@ impl DecodingState {
     /// Returns the variant that corresponds to `value` in C.
     pub(self) fn from_c_int(value: c_int) -> Self {
         match value {
-            1 => Self::Finalized,
+            v if v < 0 => Self::Finalized,
             0 => Self::Running,
             _ => Self::Failed,
         }
