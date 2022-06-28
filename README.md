@@ -6,7 +6,26 @@
 
 Safe FFI bindings around the [Vosk API Speech Recognition](https://github.com/alphacep/vosk-api) library.
 
-## Setup and usage
+## Usage
+```rust
+// Taken from examples/read_wav.rs
+
+let model = Model::new(model_path).unwrap();
+let mut recognizer = Recognizer::new(&model, reader.spec().sample_rate as f32).unwrap();
+
+recognizer.set_max_alternatives(10);
+recognizer.set_words(true);
+recognizer.set_partial_words(true);
+
+for sample in samples.chunks(100) {
+    recognizer.accept_waveform(sample);
+    println!("{:#?}", recognizer.partial_result());
+}
+
+println!("{:#?}", recognizer.final_result().multiple().unwrap());
+```
+
+## Setup
 
 ### Compilation
 
@@ -47,6 +66,7 @@ The libraries also have to be discoverable by the executable at runtime.
     `LD_LIBRARY_PATH` environment variable, like so: `LD_LIBRARY_PATH=/path/to/the/libraries:$LD_LIBRARY_PATH`.
     Note that this environment does not have to be the same added to `LIBRARY_PATH` in the compilation step.
 
+### Run the examples
 
 To run something quick (e.g. an [example](vosk/examples/)), linking the libraries with a compiler flag will be enough.
 That can be done with `RUSTFLAGS=-L/path/to/the/libs cargo run` on Linux and
