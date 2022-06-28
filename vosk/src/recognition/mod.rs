@@ -130,7 +130,7 @@ impl Recognizer {
     /// Configures recognizer to output n-best results in [`result`] and [`final_result`]
     ///
     /// The returned value from those methods will be a [`CompleteResult::Single`]
-    /// if `max_alternatives` was set to 0, and [`CompleteResult::Multiple`] otherwise.
+    /// if `max_alternatives` is 0, and [`CompleteResult::Multiple`] otherwise.
     ///
     /// * `max_alternatives` - Maximum alternatives to return (may be fewer) (default: 0)
     ///

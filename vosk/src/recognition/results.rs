@@ -40,7 +40,7 @@ pub struct Alternative<'a> {
     #[serde(default)]
     /// Collection of words present in [`text`] with metadata about them.
     ///
-    /// Empty unless [`Recognizer::set_words`] is set to true.
+    /// Empty unless [`Recognizer::set_words`] is passed `true`.
     ///
     /// [`Recognizer::set_words`]: crate::Recognizer::set_words
     /// [`text`]: Self::text
@@ -51,7 +51,7 @@ pub struct Alternative<'a> {
 
 #[derive(Debug, Clone, Deserialize)]
 /// Recognition result if [`Recognizer::set_max_alternatives`]
-/// is set to a non-zero value.
+/// is passed a non-zero value.
 ///
 /// Inner type of [`CompleteResult::Multiple`].
 ///
@@ -64,16 +64,31 @@ pub struct CompleteResultMultiple<'a> {
 
 #[derive(Debug, Clone, Deserialize)]
 /// Recognition result if [`Recognizer::set_max_alternatives`]
-/// is set to zero.
+/// is passed a zero (default).
 ///
 /// Inner type of [`CompleteResult::Single`].
 ///
 /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
 pub struct CompleteResultSingle<'a> {
+    /// Speaker vectors used for speaker identification.
+    /// Enabled if the [`Recognizer`] was passed a [`SpeakerModel`]  with
+    /// [`Recognizer::new_with_speaker`] or [`Recognizer::set_speaker_model`]
+    /// ([`None`] otherwise)
+    ///
+    /// [`SpeakerModel`]: crate::SpeakerModel
+    /// [`Recognizer`]: crate::Recognizer
+    /// [`Recognizer::new_with_speaker`]: crate::Recognizer::new_with_speaker
+    /// [`Recognizer::set_speaker_model`]: crate::Recognizer::set_speaker_model
+    pub spk: Option<Vec<f32>>,
+    /// Data frames in which the speaker was speaking (not in silence).
+    /// Enabled under the same conditions as [`spk`] ([`None`] otherwise)
+    ///
+    /// [`spk`]: Self::spk
+    pub spk_frames: Option<u16>,
     #[serde(default)]
     /// Collection of words present in [`text`] with metadata about them.
     ///
-    /// Empty unless [`Recognizer::set_words`] is set to `true`.
+    /// Empty unless [`Recognizer::set_words`] is passed `true`.
     ///
     /// [`text`]: Self::text
     /// [`Recognizer::set_words`]: crate::Recognizer::set_words
@@ -91,11 +106,11 @@ pub struct CompleteResultSingle<'a> {
 /// [`Recognizer::final_result`]: crate::Recognizer::final_result
 pub enum CompleteResult<'a> {
     #[serde(borrow)]
-    /// Result if [`Recognizer::set_max_alternatives`] is set to zero (default).
+    /// Result if [`Recognizer::set_max_alternatives`] is passed zero (default).
     ///
     /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
     Single(CompleteResultSingle<'a>),
-    /// Result if [`Recognizer::set_max_alternatives`] is set to a non-zero value.
+    /// Result if [`Recognizer::set_max_alternatives`] is passed a non-zero value.
     ///
     /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
     Multiple(CompleteResultMultiple<'a>),
@@ -136,7 +151,7 @@ pub struct PartialResult<'a> {
     pub partial: &'a str,
     /// Collection of words present in [`partial`] with metadata about them.
     ///
-    /// Empty unless [`Recognizer::set_partial_words`] is set to `true`.
+    /// Empty unless [`Recognizer::set_partial_words`] is passed `true`.
     ///
     /// [`partial`]: Self::partial
     /// [`Recognizer::set_partial_words`]: crate::Recognizer::set_partial_words
