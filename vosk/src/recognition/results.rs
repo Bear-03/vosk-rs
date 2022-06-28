@@ -41,8 +41,8 @@ pub struct Alternative<'a> {
     ///
     /// Empty unless [`Recognizer::set_words`] is passed `true`.
     ///
-    /// [`Recognizer::set_words`]: crate::Recognizer::set_words
     /// [`text`]: Self::text
+    /// [`Recognizer::set_words`]: crate::Recognizer::set_words
     #[serde(default)]
     pub result: Vec<WordInAlternative<'a>>,
     /// Full transcript text.
@@ -162,5 +162,6 @@ pub struct PartialResult<'a> {
     ///
     /// [`partial`]: Self::partial
     /// [`Recognizer::set_partial_words`]: crate::Recognizer::set_partial_words
-    pub partial_result: Option<Vec<Word<'a>>>,
+    #[serde(default)]
+    pub partial_result: Vec<Word<'a>>,
 }
