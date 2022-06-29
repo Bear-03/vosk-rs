@@ -12,7 +12,7 @@ Safe FFI bindings around the [Vosk API Speech Recognition](https://github.com/al
 
 // Normally you would not want to hardcode the audio samples
 let samples = vec![100, -2, 700, 30, 4, 5];
-let model_path= "/path/to/model";
+let model_path = "/path/to/model";
 
 let model = Model::new(model_path).unwrap();
 let mut recognizer = Recognizer::new(&model, 16000.0).unwrap();
