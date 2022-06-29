@@ -58,10 +58,10 @@ The libraries also have to be discoverable by the executable at runtime.
 You will have to follow one of the approaches in the same section you chose in [compilation](#compilation)
 
 #### Windows and Linux (Recommended)
-For both approaches, you will need to copy the libraries to the current working directory of the executable
-(`target/<profile name>` by default). It is recommended that you use a tool such as 
+For both approaches, you will need to copy the libraries to the root of the executable
+(`target/<cargo profile name>` by default). It is recommended that you use a tool such as 
 [cargo-make](https://sagiegurari.github.io/cargo-make/) to automate moving the libraries
-from another directory to the destination on build.
+from another, more practical, directory to the destination during build.
 
 #### Windows-only
 No extra steps are needed as long as the target machine also has the libraries in a directory in its `PATH`.
