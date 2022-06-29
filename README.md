@@ -68,7 +68,7 @@ No extra steps are needed as long as the target machine also has the libraries i
 
 #### Linux-only
 
--   **If you followed option 1 in the [compilation](#on-linux) section:** No extra steps are needed as long as the
+-   **If you followed option 1 in the [compilation](#linux-only) section:** No extra steps are needed as long as the
     target machine also has the libraries in one of the mentioned directories.
 -   **If you followed option 2:** You will need to add the directory containing the libraries to the
     `LD_LIBRARY_PATH` environment variable, like so: `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/the/libraries`.
