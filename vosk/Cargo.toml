@@ -4,8 +4,11 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Bear_03"]
 description = "Safe wrapper around the Vosk API Speech Recognition library"
+license = "MIT"
+documentation = "https://docs.rs/vosk"
+repository = "https://github.com/Bear-03/vosk-rs"
 keywords = ["speech", "speech-to-text", "stt"]
-categories = ["multimedia::audio"]
+categories = ["api-bindings", "multimedia::audio"]
 
 [dependencies]
 vosk-sys = { path = "../vosk-sys" }
