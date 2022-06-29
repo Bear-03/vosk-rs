@@ -114,7 +114,7 @@ impl Recognizer {
     ///
     /// [`Model`]: crate::Model
     #[must_use]
-    pub fn new_with_grammar(model: &Model, sample_rate: f32, grammar: Vec<String>) -> Option<Self> {
+    pub fn new_with_grammar(model: &Model, sample_rate: f32, grammar: &[String]) -> Option<Self> {
         let grammar_c = CString::new(format!("[{}]", grammar.join(", "))).ok()?;
         let recognizer_ptr =
             unsafe { vosk_recognizer_new_grm(model.0.as_ptr(), sample_rate, grammar_c.as_ptr()) };
