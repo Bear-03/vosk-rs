@@ -228,6 +228,9 @@ impl Recognizer {
 
     /// Generic function to retrieve a given type of result from the recognizer.
     fn result_with_function<'de, T: Deserialize<'de>>(&mut self, function: ResultFn) -> T {
+        // Panics in the result functions will never be the caller's fault, but rather some
+        // edge case that was not thought of, so it does not make sense to return a Result.
+
         serde_json::from_str(
             unsafe { CStr::from_ptr(function(self.0.as_ptr())) }
                 .to_str()
