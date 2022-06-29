@@ -70,8 +70,9 @@ pub struct CompleteResultMultiple<'a> {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+/// Data useful for speaker identification.
 pub struct SpeakerInfo {
-    /// Speaker vectors used for speaker identification.
+    /// Speaker vector used for speaker identification.
     #[serde(rename = "spk")]
     pub vector: Vec<f32>,
 
@@ -88,7 +89,7 @@ pub struct SpeakerInfo {
 /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
 #[derive(Debug, Clone, Deserialize)]
 pub struct CompleteResultSingle<'a> {
-    /// Data useful for speaker identification
+    /// Information about the speaker, used for speaker identification
     ///
     /// Enabled if the [`Recognizer`] was passed a [`SpeakerModel`]  with
     /// [`Recognizer::new_with_speaker`] or [`Recognizer::set_speaker_model`],
