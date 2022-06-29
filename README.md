@@ -30,7 +30,7 @@ println!("{:#?}", recognizer.final_result().multiple().unwrap());
 ### Compilation
 
 The Vosk-API dynamic libraries need to be discoverable by the rust linker. Download the zip for your platform
-[here](https://github.com/alphacep/vosk-api/releases) and do *either* of the following:
+[here](https://github.com/alphacep/vosk-api/releases) and do **either** of the following:
 
 #### Windows and Linux (Recommended)
 
@@ -39,7 +39,7 @@ The Vosk-API dynamic libraries need to be discoverable by the rust linker. Downl
 -   Create a [build script][build-script-explanation] and provide cargo with the path to the libraries
     with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
 
-Although both approaches are equvialent, the latter is more practical as it
+Although both approaches are equivalent, the latter is more practical as it
 impractical the developer to remember a terminal command.
 
 #### Windows-only
