@@ -8,10 +8,14 @@ Safe FFI bindings around the [Vosk API Speech Recognition](https://github.com/al
 
 ## Usage
 ```rust
-// Taken from examples/read_wav.rs
+// Simplified version of examples/read_wav.rs
+
+// Normally you would not want to hardcode the audio samples
+let samples = vec![100, -2, 700, 30, 4, 5];
+let model_path= "/path/to/model";
 
 let model = Model::new(model_path).unwrap();
-let mut recognizer = Recognizer::new(&model, reader.spec().sample_rate as f32).unwrap();
+let mut recognizer = Recognizer::new(&model, 16000.0).unwrap();
 
 recognizer.set_max_alternatives(10);
 recognizer.set_words(true);
