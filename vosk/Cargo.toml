@@ -9,12 +9,12 @@ categories = ["multimedia::audio"]
 
 [dependencies]
 vosk-sys = { path = "../vosk-sys" }
-serde_json = "1.0.81"
-serde = { version = "1.0.137", features = ["derive"] }
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
 # Dependencies for examples
-cpal = "0.13.5"
-dasp = "0.11.0"
-hound = "3.4.0"
+cpal = "0.13"
+dasp = "0.11"
+hound = "3.4"
 
