@@ -39,8 +39,8 @@ The Vosk-API dynamic libraries need to be discoverable by the rust linker. Downl
 -   Create a [build script][build-script-explanation] and provide cargo with the path to the libraries
     with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
 
-Although both approaches are equivalent, the latter is more practical as it
-impractical the developer to remember a terminal command.
+Although both approaches are equivalent, the latter is more practical as it does not
+require the developer to remember a terminal command.
 
 #### Windows-only
 
