@@ -39,9 +39,9 @@ fn main() {
         .expect("Failed to load default input config");
     let channels = config.channels();
 
-    let model = Model::new(model_path).expect("Could not create a model");
+    let model = Model::new(model_path).expect("Could not create the model");
     let mut recognizer = Recognizer::new(&model, config.sample_rate().0 as f32)
-        .expect("Could not create a Recognizer");
+        .expect("Could not create the Recognizer");
 
     recognizer.set_max_alternatives(10);
     recognizer.set_words(true);

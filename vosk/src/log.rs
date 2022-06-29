@@ -15,7 +15,7 @@ pub enum LogLevel {
 }
 
 impl LogLevel {
-    pub(self) fn as_c_int(&self) -> c_int {
+    pub(self) fn to_c_int(self) -> c_int {
         match self {
             Self::ErrorInfo => 0,
             Self::Error => -1,
@@ -34,5 +34,5 @@ impl Default for LogLevel {
 ///
 /// Default: [`LogLevel::ErrorInfo`].
 pub fn set_log_level(log_level: LogLevel) {
-    unsafe { vosk_set_log_level(log_level.as_c_int()) }
+    unsafe { vosk_set_log_level(log_level.to_c_int()) }
 }

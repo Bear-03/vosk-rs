@@ -20,13 +20,15 @@ fn main() {
         .next()
         .expect("A path for the wav file to be read was not provieded");
 
-    let mut reader = WavReader::open(wav_path).unwrap();
-    let samples: Vec<i16> = reader.samples().map(|s| s.unwrap()).collect();
+    let mut reader = WavReader::open(wav_path).expect("Could not create the WAV reader");
+    let samples: Vec<i16> = reader.samples().filter_map(|s| s.ok()).collect();
 
-    let model = Model::new(model_path).unwrap();
-    let spk_model = SpeakerModel::new(speaker_model_path).unwrap();
+    let model = Model::new(model_path).expect("Could not create the model");
+    let spk_model =
+        SpeakerModel::new(speaker_model_path).expect("Could not create the speaker model");
     let mut recognizer =
-        Recognizer::new_with_speaker(&model, reader.spec().sample_rate as f32, &spk_model).unwrap();
+        Recognizer::new_with_speaker(&model, reader.spec().sample_rate as f32, &spk_model)
+            .expect("Could not create the recognizer");
 
     // Alternatives cannot be enabled as the Alternative objets do not contain the speaker info
     // recognizer.set_max_alternatives(10);

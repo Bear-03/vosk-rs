@@ -19,11 +19,12 @@ fn main() {
         .next()
         .expect("A path for the wav file to be read was not provieded");
 
-    let mut reader = WavReader::open(wav_path).unwrap();
-    let samples: Vec<i16> = reader.samples().map(|s| s.unwrap()).collect();
+    let mut reader = WavReader::open(wav_path).expect("Could not create the WAV reader");
+    let samples: Vec<i16> = reader.samples().filter_map(|s| s.ok()).collect();
 
-    let model = Model::new(model_path).unwrap();
-    let mut recognizer = Recognizer::new(&model, reader.spec().sample_rate as f32).unwrap();
+    let model = Model::new(model_path).expect("Could not create the model");
+    let mut recognizer = Recognizer::new(&model, reader.spec().sample_rate as f32)
+        .expect("Could not create the recognizer");
 
     recognizer.set_max_alternatives(10);
     recognizer.set_words(true);

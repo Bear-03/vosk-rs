@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// A single word in a [`CompleteResultSingle`] and metadata about it.
 ///
@@ -6,7 +6,7 @@ use serde::Deserialize;
 /// rather than part of an [`Alternative`].
 ///
 /// [`conf`]: Self::conf
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Word<'a> {
     /// Confidence that this word is.
     pub conf: f32,
@@ -25,7 +25,7 @@ pub struct Word<'a> {
 ///
 /// Unlike [`Word`], it does not contain the confidence,
 /// as it is part of the [`Alternative`] itself.
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WordInAlternative<'a> {
     /// Time in seconds when the word starts.
     pub start: f32,
@@ -38,7 +38,7 @@ pub struct WordInAlternative<'a> {
 }
 
 /// An alternative transcript in a [`CompleteResultMultiple`].
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Alternative<'a> {
     /// Confidence of the recognizer that this is the correct alternative transcript.
     pub confidence: f32,
@@ -62,14 +62,14 @@ pub struct Alternative<'a> {
 /// Inner type of [`CompleteResult::Multiple`].
 ///
 /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CompleteResultMultiple<'a> {
     /// All the possible results of the transcription, ordered from most to less likely.
     #[serde(borrow)]
     pub alternatives: Vec<Alternative<'a>>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 /// Data useful for speaker identification.
 pub struct SpeakerInfo {
     /// Speaker vector used for speaker identification.
@@ -87,7 +87,7 @@ pub struct SpeakerInfo {
 /// Inner type of [`CompleteResult::Single`].
 ///
 /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CompleteResultSingle<'a> {
     /// Information about the speaker, used for speaker identification
     ///
@@ -120,7 +120,7 @@ pub struct CompleteResultSingle<'a> {
 ///
 /// [`Recognizer::result`]: crate::Recognizer::result
 /// [`Recognizer::final_result`]: crate::Recognizer::final_result
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CompleteResult<'a> {
     /// Result if [`Recognizer::set_max_alternatives`] is passed zero (default).
@@ -163,7 +163,7 @@ impl<'a> CompleteResult<'a> {
 /// The result may change after processing more data as decoding is not yet complete.
 ///
 /// [`Recognizer::partial_result`]: crate::Recognizer::partial_result
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PartialResult<'a> {
     // The "partial" JSON key will not be present if partial_result is called when the recognizer isn't running (DecodingState::Running).
     // It makes sense to return an empty string in that case
