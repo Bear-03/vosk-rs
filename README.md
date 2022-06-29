@@ -33,10 +33,11 @@ println!("{:#?}", recognizer.final_result().multiple().unwrap());
 
 ### Compilation
 
-The Vosk-API dynamic libraries need to be discoverable by the rust linker. Download the zip for your platform
-[here](https://github.com/alphacep/vosk-api/releases) and do **either** of the following:
+The Vosk-API dynamic libraries have to be discoverable by the rust linker (static libraries are not available).
+Download the zip file for your platform [here](https://github.com/alphacep/vosk-api/releases) and:
 
 #### Windows and Linux (Recommended)
+Do either of the following:
 
 -   Use the [`RUSTFLAGS` environment variable][rust-env-variables] to provide the path to the variables like so:
     `RURSTFLAGS=-L/path/to/the/libraries`
@@ -51,11 +52,10 @@ require the developer to remember a terminal command.
 -   Move the libraries to a directory in your `PATH` environment variable.
 
 #### Linux-only
+Do either of the following:
 
 -   Move them to `/usr/local/lib` or `/usr/lib`.
--   Set the `LIBRARY_PATH` environment variable to the folder where you saved the libraries, lik so
-
-Static libraries are not available.
+-   Set the `LIBRARY_PATH` environment variable to the directory where you saved the libraries, lik so
 
 ### Execution
 The libraries also have to be discoverable by the executable at runtime.
@@ -68,7 +68,7 @@ For both approaches, you will need to copy the libraries to the root of the exec
 from another, more practical, directory to the destination during build.
 
 #### Windows-only
-No extra steps are needed as long as the target machine also has the libraries in a directory in its `PATH`.
+If you added your libraries to a directory in your `PATH`, no extra steps are needed as long as that is also the case for the target machine.
 
 #### Linux-only
 
