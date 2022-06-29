@@ -6,8 +6,10 @@ use vosk_sys::*;
 pub enum LogLevel {
     /// Print Error, Info and Debug messages.
     ErrorInfoDebug,
+
     /// Print Error and Info, but not Debug messages (default).
     ErrorInfo,
+
     /// Only print Error messages.
     Error,
 }

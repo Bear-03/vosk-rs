@@ -10,10 +10,13 @@ use serde::Deserialize;
 pub struct Word<'a> {
     /// Confidence that this word is.
     pub conf: f32,
+
     /// Time in seconds when the word starts.
     pub start: f32,
+
     /// Time in seconds when the word ends.
     pub end: f32,
+
     /// The transcribed word.
     pub word: &'a str,
 }
@@ -26,8 +29,10 @@ pub struct Word<'a> {
 pub struct WordInAlternative<'a> {
     /// Time in seconds when the word starts.
     pub start: f32,
+
     /// Time in seconds when the word ends.
     pub end: f32,
+
     /// The transcribed word.
     pub word: &'a str,
 }
@@ -37,6 +42,7 @@ pub struct WordInAlternative<'a> {
 pub struct Alternative<'a> {
     /// Confidence of the recognizer that this is the correct alternative transcript.
     pub confidence: f32,
+
     /// Collection of words present in [`text`] with metadata about them.
     ///
     /// Empty unless [`Recognizer::set_words`] is passed `true`.
@@ -45,6 +51,7 @@ pub struct Alternative<'a> {
     /// [`Recognizer::set_words`]: crate::Recognizer::set_words
     #[serde(default)]
     pub result: Vec<WordInAlternative<'a>>,
+
     /// Full transcript text.
     pub text: &'a str,
 }
@@ -67,6 +74,7 @@ pub struct SpeakerInfo {
     /// Speaker vectors used for speaker identification.
     #[serde(rename = "spk")]
     pub vector: Vec<f32>,
+
     /// Data frames in which the speaker was not in silence.
     #[serde(rename = "spk_frames")]
     pub frames: u16,
@@ -92,6 +100,7 @@ pub struct CompleteResultSingle<'a> {
     /// [`Recognizer::set_speaker_model`]: crate::Recognizer::set_speaker_model
     #[serde(flatten)]
     pub speaker_info: Option<SpeakerInfo>,
+
     /// Collection of words present in [`text`] with metadata about them.
     ///
     /// Empty unless [`Recognizer::set_words`] is passed `true`.
@@ -100,6 +109,7 @@ pub struct CompleteResultSingle<'a> {
     /// [`Recognizer::set_words`]: crate::Recognizer::set_words
     #[serde(default)]
     pub result: Vec<Word<'a>>,
+
     /// Full text of the transcript.
     pub text: &'a str,
 }
@@ -117,6 +127,7 @@ pub enum CompleteResult<'a> {
     /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
     #[serde(borrow)]
     Single(CompleteResultSingle<'a>),
+
     /// Result if [`Recognizer::set_max_alternatives`] is passed a non-zero value.
     ///
     /// [`Recognizer::set_max_alternatives`]: crate::Recognizer::set_max_alternatives
@@ -158,6 +169,7 @@ pub struct PartialResult<'a> {
     /// Full text of the partial transcript.
     #[serde(default)]
     pub partial: &'a str,
+
     /// Collection of words present in [`partial`] with metadata about them.
     ///
     /// Empty unless [`Recognizer::set_partial_words`] is passed `true`.
