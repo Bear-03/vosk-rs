@@ -30,47 +30,49 @@ println!("{:#?}", recognizer.final_result().multiple().unwrap());
 ### Compilation
 
 The Vosk-API dynamic libraries need to be discoverable by the rust linker. Download the zip for your platform
-[here](https://github.com/alphacep/vosk-api/releases) and do either of the following:
+[here](https://github.com/alphacep/vosk-api/releases) and do *either* of the following:
 
-#### On Windows
+#### Windows and Linux (Recommended)
 
--   Move them to a folder in your `PATH` environment variable.
--   Create a [build script][build-script-explanation] and
-    provide cargo with the path to the libraries with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
+-   Use the [`RUSTFLAGS` environment variable][rust-env-variables] to provide the path to the variables like so:
+    `RURSTFLAGS=-L/path/to/the/libraries`
+-   Create a [build script][build-script-explanation] and provide cargo with the path to the libraries
+    with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
 
-### On Linux
+Although both approaches are equvialent, the latter is more practical as it
+impractical the developer to remember a terminal command.
+
+#### Windows-only
+
+-   Move the libraries to a directory in your `PATH` environment variable.
+
+#### Linux-only
 
 -   Move them to `/usr/local/lib` or `/usr/lib`.
--   Set the `LIBRARY_PATH` environment variable to the folder where you saved the libraries, like so.
+-   Set the `LIBRARY_PATH` environment variable to the folder where you saved the libraries, lik so
 
 Static libraries are not available.
 
 ### Execution
+The libraries also have to be discoverable by the executable at runtime.
+You will have to follow one of the approaches in the same section you chose in [compilation](#compilation)
 
-The libraries also have to be discoverable by the executable at runtime. 
+#### Windows and Linux (Recommended)
+For both approaches, you will need to copy the libraries to the current working directory of the executable
+(`target/<profile name>` by default). It is recommended that you use a tool such as 
+[cargo-make](https://sagiegurari.github.io/cargo-make/) to automate moving the libraries
+from another directory to the destination on build.
 
-#### On Windows
+#### Windows-only
+No extra steps are needed as long as the target machine also has the libraries in a directory in its `PATH`.
 
--   **If you followed option 1 in the [compilation](#on-windows) section:** No extra steps are needed as long as
-    the target machine also has the libraries in one of those directories.
--   **If you followed option 2:** You will need to copy the libraries to the current working directory
-    of the executable (`target/<profile name>` by default). It is recommended that you use a tool
-    such as [cargo-make](https://sagiegurari.github.io/cargo-make/) to automate moving the libraries
-    from another directory to the destination on build.
+#### Linux-only
 
-#### On Linux
-
--   **If you followed option 2 in the [compilation](#on-linux) section:** No extra steps are needed as long as the
-    target machine also has the libraries in one of those directories.
+-   **If you followed option 1 in the [compilation](#on-linux) section:** No extra steps are needed as long as the
+    target machine also has the libraries in one of the mentioned directories.
 -   **If you followed option 2:** You will need to add the directory containing the libraries to the
-    `LD_LIBRARY_PATH` environment variable, like so: `LD_LIBRARY_PATH=/path/to/the/libraries:$LD_LIBRARY_PATH`.
-    Note that this environment does not have to be the same added to `LIBRARY_PATH` in the compilation step.
-
-### Run the examples
-
-To run something quick (e.g. an [example](vosk/examples/)), linking the libraries with a compiler flag will be enough.
-That can be done with `RUSTFLAGS=-L/path/to/the/libs cargo run` on Linux and
-`$env:RUSTFLAGS="-L/path/to/the/libs"; cargo run` on Windows (powershell). However, this is not recommended for your own
-projects as [build scripts][build-script-explanation] are much more practical.
+    `LD_LIBRARY_PATH` environment variable, like so: `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/the/libraries`.
+    Note that this directory does not have to be the same added to `LIBRARY_PATH` in the compilation step.
 
 [build-script-explanation]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
+[rust-env-variables]: https://doc.rust-lang.org/cargo/reference/environment-variables.html
