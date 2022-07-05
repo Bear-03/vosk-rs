@@ -40,7 +40,7 @@ Download the zip file for your platform [here](https://github.com/alphacep/vosk-
 Do either of the following:
 
 -   Use the [`RUSTFLAGS` environment variable][rust-env-variables] to provide the path to the variables like so:
-    `RURSTFLAGS=-L/path/to/the/libraries`
+    `RUSTFLAGS=-L/path/to/the/libraries`
 -   Create a [build script][build-script-explanation] and provide cargo with the path to the libraries
     with `cargo:rustc-link-search` or `cargo:rustc-link-lib`.
 

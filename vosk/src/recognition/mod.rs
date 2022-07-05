@@ -108,8 +108,15 @@ impl Recognizer {
     /// # Examples
     ///
     /// ```
-    /// let model = Model::new("path/to/model");
-    /// let recognizer = Recognizer::new_with_grammar(&model, 16000.0, vec!["one two three four five", "[unk]"]);
+    /// # use vosk::{Model, Recognizer};
+    /// #
+    /// let model = Model::new("/path/to/model").expect("Could not create a model");
+    /// let recognizer = Recognizer::new_with_grammar(
+    ///     &model,
+    ///     16000.0,
+    ///     &["one two three four five".to_string(), "[unk]".to_string()],
+    /// )
+    /// .expect("Could not create a recognizer");
     /// ```
     ///
     /// [`Model`]: crate::Model
