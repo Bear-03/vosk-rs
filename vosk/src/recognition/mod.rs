@@ -103,7 +103,7 @@ impl Recognizer {
     /// * `sample_rate` - The sample rate of the audio you going to feed into the recognizer.
     /// Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
     ///
-    /// * `grammar` - The string with the list of phrases to recognize.
+    /// * `grammar` - The list of phrases to recognize.
     ///
     /// # Examples
     ///
