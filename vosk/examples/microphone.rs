@@ -16,7 +16,7 @@ use cpal::{
     ChannelCount,
 };
 use dasp::{sample::ToSample, Sample};
-use vosk::{Model, Recognizer};
+use vosk::{DecodingState, Model, Recognizer};
 
 fn main() {
     let mut args = env::args();
@@ -94,8 +94,19 @@ fn recognize<T: Sample + ToSample<i16>>(
         data
     };
 
-    recognizer.accept_waveform(&data);
-    println!("{:#?}", recognizer.partial_result());
+    let state = recognizer.accept_waveform(&data);
+    match state {
+        DecodingState::Running => {
+            println!("partial: {:#?}", recognizer.partial_result());
+        }
+        DecodingState::Finalized => {
+            // Result will always be multiple because we called set_max_alternatives
+            println!("result: {:#?}", recognizer.result().multiple().unwrap());
+        }
+        DecodingState::Failed => {
+            println!("error");
+        }
+    }
 }
 
 pub fn stereo_to_mono(input_data: &[i16]) -> Vec<i16> {
