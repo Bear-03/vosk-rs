@@ -16,7 +16,7 @@ use cpal::{
     ChannelCount,
 };
 use dasp::{sample::ToSample, Sample};
-use vosk::{Model, Recognizer};
+use vosk::{DecodingState, Model, Recognizer};
 
 fn main() {
     let mut args = env::args();
@@ -96,16 +96,15 @@ fn recognize<T: Sample + ToSample<i16>>(
 
     let state = recognizer.accept_waveform(&data);
     match state {
-        vosk::DecodingState::Running => {
-            let partial_result = recognizer.partial_result();
-            println!("partial: {:#?}", partial_result);
+        DecodingState::Running => {
+            println!("partial: {:#?}", recognizer.partial_result());
         }
-        vosk::DecodingState::Finalized => {
-            let result = recognizer.result();
-            result.multiple().map(|r| println!("result: {:#?}", r));
+        DecodingState::Finalized => {
+            // Result will always be multiple because we called set_max_alternatives
+            println!("result: {:#?}", recognizer.result().multiple().unwrap());
         }
-        vosk::DecodingState::Failed => {
-            println!("error")
+        DecodingState::Failed => {
+            println!("error");
         }
     }
 }
