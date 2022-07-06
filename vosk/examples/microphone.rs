@@ -94,8 +94,20 @@ fn recognize<T: Sample + ToSample<i16>>(
         data
     };
 
-    recognizer.accept_waveform(&data);
-    println!("{:#?}", recognizer.partial_result());
+    let state = recognizer.accept_waveform(&data);
+    match state {
+        vosk::DecodingState::Running => {
+            let partial_result = recognizer.partial_result().partial;
+            println!("partial: {}", partial_result);
+        }
+        vosk::DecodingState::Finalized => {
+            let result = recognizer.result();
+            result.single().map(|r| println!("text: {}", r.text));
+        }
+        vosk::DecodingState::Failed => {
+            println!("error")
+        }
+    }
 }
 
 pub fn stereo_to_mono(input_data: &[i16]) -> Vec<i16> {
