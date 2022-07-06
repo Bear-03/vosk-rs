@@ -13,7 +13,7 @@ use std::{
 
 use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
-    ChannelCount,
+    ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
 use vosk::{DecodingState, Model, Recognizer};
@@ -55,17 +55,17 @@ fn main() {
 
     let recognizer_clone = recognizer.clone();
     let stream = match config.sample_format() {
-        cpal::SampleFormat::F32 => audio_input_device.build_input_stream(
+        SampleFormat::F32 => audio_input_device.build_input_stream(
             &config.into(),
             move |data: &[f32], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
         ),
-        cpal::SampleFormat::U16 => audio_input_device.build_input_stream(
+        SampleFormat::U16 => audio_input_device.build_input_stream(
             &config.into(),
             move |data: &[u16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
         ),
-        cpal::SampleFormat::I16 => audio_input_device.build_input_stream(
+        SampleFormat::I16 => audio_input_device.build_input_stream(
             &config.into(),
             move |data: &[i16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
@@ -103,9 +103,7 @@ fn recognize<T: Sample + ToSample<i16>>(
             // Result will always be multiple because we called set_max_alternatives
             println!("result: {:#?}", recognizer.result().multiple().unwrap());
         }
-        DecodingState::Failed => {
-            println!("error");
-        }
+        DecodingState::Failed => eprintln!("error"),
     }
 }
 
