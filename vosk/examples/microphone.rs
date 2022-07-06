@@ -97,12 +97,12 @@ fn recognize<T: Sample + ToSample<i16>>(
     let state = recognizer.accept_waveform(&data);
     match state {
         vosk::DecodingState::Running => {
-            let partial_result = recognizer.partial_result().partial;
-            println!("partial: {}", partial_result);
+            let partial_result = recognizer.partial_result();
+            println!("partial: {:?}", partial_result);
         }
         vosk::DecodingState::Finalized => {
             let result = recognizer.result();
-            result.single().map(|r| println!("text: {}", r.text));
+            result.multiple().map(|r| println!("result: {:?}", r));
         }
         vosk::DecodingState::Failed => {
             println!("error")
