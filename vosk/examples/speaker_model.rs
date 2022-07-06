@@ -42,5 +42,5 @@ fn main() {
         println!("{:#?}", recognizer.partial_result());
     }
 
-    println!("{:#?}", recognizer.final_result().single().unwrap());
+    println!("{:#?}", recognizer.final_result().single());
 }

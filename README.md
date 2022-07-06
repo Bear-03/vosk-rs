@@ -26,7 +26,7 @@ for sample in samples.chunks(100) {
     println!("{:#?}", recognizer.partial_result());
 }
 
-println!("{:#?}", recognizer.final_result().multiple().unwrap());
+println!("{:#?}", recognizer.final_result().multiple());
 ```
 
 ## Setup
