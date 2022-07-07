@@ -35,10 +35,8 @@ jobs:
         toolchain: stable
         override: true
 
-    - name: Test crate
-      run: |
-        cargo build
-        cargo test
+    - name: Test crates
+      run: cargo test
 
     - name: Build examples
       run: cargo build --examples
