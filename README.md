@@ -55,7 +55,7 @@ require the developer to remember a terminal command.
 Do either of the following:
 
 -   Move them to `/usr/local/lib` or `/usr/lib`.
--   Set the `LIBRARY_PATH` environment variable to the directory where you saved the libraries, lik so
+-   Set the `LIBRARY_PATH` environment variable to the directory containing the libraries.
 
 ### Execution
 The libraries also have to be discoverable by the executable at runtime.
@@ -75,8 +75,8 @@ If you added your libraries to a directory in your `PATH`, no extra steps are ne
 -   **If you followed option 1 in the [compilation](#linux-only) section:** No extra steps are needed as long as the
     target machine also has the libraries in one of the mentioned directories.
 -   **If you followed option 2:** You will need to add the directory containing the libraries to the
-    `LD_LIBRARY_PATH` environment variable, like so: `LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/the/libraries`.
-    Note that this directory does not have to be the same added to `LIBRARY_PATH` in the compilation step.
+    `LD_LIBRARY_PATH` environment variable. Note that this directory does not have to be the same added to
+    `LIBRARY_PATH` in the compilation step.
 
 [build-script-explanation]: https://doc.rust-lang.org/cargo/reference/build-scripts.html
 [rust-env-variables]: https://doc.rust-lang.org/cargo/reference/environment-variables.html
