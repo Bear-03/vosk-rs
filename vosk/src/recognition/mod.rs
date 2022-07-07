@@ -107,7 +107,7 @@ impl Recognizer {
     ///
     /// # Examples
     ///
-    /// ```
+    /// ```no_runno_run
     /// # use vosk::{Model, Recognizer};
     /// #
     /// let model = Model::new("/path/to/model").expect("Could not create a model");
