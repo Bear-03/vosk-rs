@@ -23,12 +23,18 @@ jobs:
       run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs
 
     - name: Extract libraries
-      run: sudo unzip libs -d /lib
+      run: sudo unzip libs -d -j /lib
+
+    - name: Install latest Rust stable
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
 
     - name: Test crate
       run: |
-        cargo build --verbose
-        cargo test --verbose
+        cargo build
+        cargo test
 
     - name: Build examples
-      run: cargo build --examples --verbose
+      run: cargo build --examples
