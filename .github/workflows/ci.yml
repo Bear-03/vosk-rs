@@ -18,6 +18,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Install apt packages
+      run: sudo apt install libasound2-dev
 
     - name: Download libraries
       run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs.zip
