@@ -31,6 +31,7 @@ jobs:
     - name: Install latest Rust stable
       uses: actions-rs/toolchain@v1
       with:
+        profile: minimal
         toolchain: stable
         override: true
 
