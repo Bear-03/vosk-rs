@@ -147,7 +147,7 @@ impl<'a> CompleteResult<'a> {
         match self {
             Self::Single(x) => x,
             Self::Multiple(_) => {
-                panic!("Expected Single result, but got Multiple. Did you enable alternatives by mistake?")
+                panic!("Expected Single result, but got Multiple. Consider disabling alternatives")
             }
         }
     }
@@ -162,7 +162,7 @@ impl<'a> CompleteResult<'a> {
     pub fn multiple(self) -> CompleteResultMultiple<'a> {
         match self {
             Self::Single(_) => {
-                panic!("Expected Multiple result, but got Single. Did you forget to enable alternatives?")
+                panic!("Expected Multiple result, but got Single. Consider enabling alternatives")
             }
             Self::Multiple(x) => x,
         }
