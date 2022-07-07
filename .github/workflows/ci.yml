@@ -20,10 +20,10 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Download libraries
-      run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs
+      run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs.zip
 
     - name: Extract libraries
-      run: sudo unzip libs -d -j /lib
+      run: sudo unzip -j libs.zip -d /lib
 
     - name: Install latest Rust stable
       uses: actions-rs/toolchain@v1
