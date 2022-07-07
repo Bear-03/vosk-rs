@@ -2,7 +2,7 @@
 //! cargo run --example read_wav <model path> <speaker model path> <wav path>
 //! e.g. "cargo run --example speaker_model /home/user/stt/model /home/user/stt/speaker_model /home/user/stt/test.wav"
 //!
-//! Check out the "Run the examples" section in the README to know how to link the vosk dynamic
+//! Read the "Setup" section in the README to know how to link the vosk dynamic
 //! libaries to the examples
 
 use std::env;

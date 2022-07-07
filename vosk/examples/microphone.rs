@@ -2,7 +2,7 @@
 //! cargo run --example microphone <model path> <duration>
 //! e.g. "cargo run --example microphone /home/user/stt/model 10"
 //!
-//! Check out the "Run the examples" section in the README to know how to link the vosk dynamic
+//! Read the "Setup" section in the README to know how to link the vosk dynamic
 //! libaries to the examples
 
 use std::{
