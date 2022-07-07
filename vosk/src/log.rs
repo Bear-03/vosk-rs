@@ -1,13 +1,14 @@
 use std::os::raw::c_int;
 use vosk_sys::*;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Default, Clone, Copy)]
 /// Log level for Kaldi messages.
 pub enum LogLevel {
     /// Print Error, Info and Debug messages.
     ErrorInfoDebug,
 
     /// Print Error and Info, but not Debug messages (default).
+    #[default]
     ErrorInfo,
 
     /// Only print Error messages.
@@ -21,12 +22,6 @@ impl LogLevel {
             Self::Error => -1,
             Self::ErrorInfoDebug => 1,
         }
-    }
-}
-
-impl Default for LogLevel {
-    fn default() -> Self {
-        Self::ErrorInfo
     }
 }
 
