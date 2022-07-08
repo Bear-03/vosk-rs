@@ -136,35 +136,25 @@ pub enum CompleteResult<'a> {
 }
 
 impl<'a> CompleteResult<'a> {
-    /// Returns the inner [`CompleteResultSingle`]
-    ///
-    /// # Panics
-    /// Panics if `self` is a [`Multiple`]
-    ///
-    /// [`Multiple`]: Self::Multiple
-    #[must_use]
-    pub fn single(self) -> CompleteResultSingle<'a> {
-        match self {
-            Self::Single(x) => x,
-            Self::Multiple(_) => {
-                panic!("Expected Single result, but got Multiple. Consider disabling alternatives")
-            }
-        }
-    }
-
-    /// Returns the inner [`CompleteResultMultiple`]
-    ///
-    /// # Panics
-    /// Panics if `self` is a [`Single`].
+    /// Returns the inner [`CompleteResultSingle`] if `self` was [`Single`], and [`None`] otherwise.
     ///
     /// [`Single`]: Self::Single
     #[must_use]
-    pub fn multiple(self) -> CompleteResultMultiple<'a> {
+    pub fn single(self) -> Option<CompleteResultSingle<'a>> {
         match self {
-            Self::Single(_) => {
-                panic!("Expected Multiple result, but got Single. Consider enabling alternatives")
-            }
-            Self::Multiple(x) => x,
+            Self::Single(x) => Some(x),
+            Self::Multiple(_) => None,
+        }
+    }
+
+    /// Returns the inner [`CompleteResultMultiple`] if `self` was [`Multiple`], and [`None`] otherwise.
+    ///
+    /// [`Multiple`]: Self::Multiple
+    #[must_use]
+    pub fn multiple(self) -> Option<CompleteResultMultiple<'a>> {
+        match self {
+            Self::Single(_) => None,
+            Self::Multiple(x) => Some(x),
         }
     }
 }
