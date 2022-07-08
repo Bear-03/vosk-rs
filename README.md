@@ -4,7 +4,7 @@
 [![Documentation on docs.rs](https://docs.rs/vosk/badge.svg)](https://docs.rs/vosk)
 [![GitHub](https://img.shields.io/github/license/Bear-03/vosk-rs)](https://github.com/Bear-03/vosk-rs)
 
-Safe FFI bindings around the [Vosk API Speech Recognition](https://github.com/alphacep/vosk-api) library.
+Safe FFI bindings around the [Vosk API Speech Recognition Toolkit](https://github.com/alphacep/vosk-api).
 
 ## Usage
 ```rust

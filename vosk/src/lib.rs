@@ -1,5 +1,5 @@
 #![deny(missing_docs)]
-//! Safe FFI bindings around the [Vosk API Speech Recognition](https://github.com/alphacep/vosk-api) library.
+//! Safe FFI bindings around the [Vosk API Speech Recognition Toolkit](https://github.com/alphacep/vosk-api).
 //!
 //! **Basic usage:**
 //! * Create a [`Model`]
