@@ -10,6 +10,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  APT_DEPS: libasound2-dev # cpal dependency
 
 jobs:
   rustfmt:
@@ -21,7 +22,6 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
           override: true
           components: rustfmt
       - name: Run rustfmt
@@ -35,12 +35,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install apt packages
-        run: sudo apt install libasound2-dev # cpal dependency
+        run: sudo apt install ${{ env.APT_DEPS }}
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
           override: true
           components: clippy
       - name: Run clippy
@@ -60,7 +59,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install apt packages
-      run: sudo apt install libasound2-dev # cpal dependency
+      run: sudo apt install ${{ env.APT_DEPS }}
     - name: Download libraries
       run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs.zip
     - name: Extract libraries
