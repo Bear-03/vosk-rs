@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - ci
   pull_request:
     branches:
-      - main
+      - ci
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,6 +15,13 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+          - beta
+          - nightly
+
 
     steps:
     - uses: actions/checkout@v3
@@ -28,13 +35,7 @@ jobs:
     - name: Extract libraries
       run: sudo unzip -j libs.zip -d /lib
 
-    - name: Install latest Rust stable
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-
+    - run: rustup update ${{ matrix.toolchain }} && rustup default ${{ matrix.toolchain }}
     - name: Build
       run: cargo build
 
