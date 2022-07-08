@@ -59,7 +59,7 @@ Do either of the following:
 
 ### Execution
 The libraries also have to be discoverable by the executable at runtime.
-You will have to follow one of the approaches in the same section you chose in [compilation](#compilation)
+You will have to follow one of the approaches in the same section you chose in [compilation](#compilation).
 
 #### Windows and Linux (Recommended)
 For both approaches, you will need to copy the libraries to the root of the executable
