@@ -40,7 +40,7 @@ jobs:
         profile: minimal
         toolchain: ${{ matrix.toolchain }}
         override: true
-        
+
     - name: Build
       run: cargo build
 
