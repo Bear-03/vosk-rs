@@ -51,6 +51,12 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toolchain:
+          - stable
+          - beta
+          - nightly
     steps:
     - uses: actions/checkout@v3
     - name: Install apt packages
@@ -63,7 +69,7 @@ jobs:
       uses: actions-rs/toolchain@v1
       with:
         profile: minimal
-        toolchain: stable
+        toolchain: ${{ matrix.toolchain }}
         override: true
     - name: Build
       run: cargo build
