@@ -23,7 +23,7 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
-      - run: rustup component add rustfmt
+          components: rustfmt
       - name: Run rustfmt
         uses: actions-rs/cargo@v1
         with:
@@ -42,7 +42,7 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
-      - run: rustup component add clippy
+          components: clippy
       - name: Run clippy
         uses: actions-rs/cargo@v1
         with:
