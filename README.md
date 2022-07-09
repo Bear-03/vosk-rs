@@ -1,8 +1,9 @@
 # Vosk
 
-[![Latest release on crates.io](https://img.shields.io/crates/v/vosk.svg)](https://crates.io/crates/vosk)
-[![Documentation on docs.rs](https://docs.rs/vosk/badge.svg)](https://docs.rs/vosk)
-[![GitHub](https://img.shields.io/github/license/Bear-03/vosk-rs)](https://github.com/Bear-03/vosk-rs)
+[![Latest release](https://img.shields.io/crates/v/vosk.svg)](https://crates.io/crates/vosk)
+[![Documentation](https://docs.rs/vosk/badge.svg)](https://docs.rs/vosk)
+[![MIT](https://img.shields.io/github/license/Bear-03/vosk-rs)](https://github.com/Bear-03/vosk-rs)
+[![Build Status](https://github.com/Bear-03/vosk-rs/workflows/CI/badge.svg)](https://github.com/Bear-03/vosk-rs/actions?workflow=CI)
 
 Safe FFI bindings around the [Vosk API Speech Recognition Toolkit](https://github.com/alphacep/vosk-api).
 
