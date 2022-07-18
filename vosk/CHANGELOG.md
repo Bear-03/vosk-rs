@@ -1,4 +1,4 @@
-# (UNRELEASED) 0.1.1
+# (UNRELEASED) 0.2.0
 * Documentation fixes
 * Loosen generic bounds for Recognizer::new_with_grammar
 
