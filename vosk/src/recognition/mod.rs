@@ -1,6 +1,7 @@
 use crate::{Model, SpeakerModel};
 use serde::Deserialize;
 use std::{
+    borrow::Borrow,
     ffi::{CStr, CString},
     os::raw::{c_char, c_int},
     ptr::NonNull,
@@ -107,21 +108,25 @@ impl Recognizer {
     ///
     /// # Examples
     ///
-    /// ```no_runno_run
+    /// ```no_run
     /// # use vosk::{Model, Recognizer};
     /// #
     /// let model = Model::new("/path/to/model").expect("Could not create a model");
     /// let recognizer = Recognizer::new_with_grammar(
     ///     &model,
     ///     16000.0,
-    ///     &["one two three four five".to_string(), "[unk]".to_string()],
+    ///     &["one two three four five", "[unk]"],
     /// )
     /// .expect("Could not create a recognizer");
     /// ```
     ///
     /// [`Model`]: crate::Model
     #[must_use]
-    pub fn new_with_grammar(model: &Model, sample_rate: f32, grammar: &[String]) -> Option<Self> {
+    pub fn new_with_grammar(
+        model: &Model,
+        sample_rate: f32,
+        grammar: &[impl Borrow<str>],
+    ) -> Option<Self> {
         let grammar_c = CString::new(format!("[{}]", grammar.join(", "))).ok()?;
         let recognizer_ptr =
             unsafe { vosk_recognizer_new_grm(model.0.as_ptr(), sample_rate, grammar_c.as_ptr()) };
