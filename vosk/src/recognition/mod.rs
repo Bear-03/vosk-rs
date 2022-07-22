@@ -1,7 +1,6 @@
 use crate::{Model, SpeakerModel};
 use serde::Deserialize;
 use std::{
-    borrow::Borrow,
     ffi::{CStr, CString},
     os::raw::{c_char, c_int},
     ptr::NonNull,
@@ -125,9 +124,17 @@ impl Recognizer {
     pub fn new_with_grammar(
         model: &Model,
         sample_rate: f32,
-        grammar: &[impl Borrow<str>],
+        grammar: &[impl AsRef<str>],
     ) -> Option<Self> {
-        let grammar_c = CString::new(format!("[{}]", grammar.join(", "))).ok()?;
+        let grammar_c = CString::new(format!(
+            "[{}]",
+            grammar
+                .iter()
+                .map(|phrase| format!("\"{}\"", phrase.as_ref()))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ))
+        .ok()?;
         let recognizer_ptr =
             unsafe { vosk_recognizer_new_grm(model.0.as_ptr(), sample_rate, grammar_c.as_ptr()) };
 
