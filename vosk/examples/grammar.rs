@@ -17,7 +17,7 @@ fn main() {
     let model_path = args.next().expect("A model path was not provided");
     let wav_path = args
         .next()
-        .expect("A path for the wav file to be read was not provieded");
+        .expect("A path for the wav file to be read was not provided");
 
     let mut reader = WavReader::open(wav_path).expect("Could not create the WAV reader");
     let samples: Vec<i16> = reader.samples().filter_map(|s| s.ok()).collect();
@@ -37,16 +37,16 @@ fn main() {
     .expect("Could not create the recognizer");
 
     for sample in samples.chunks(4000) {
-        let stream = recognizer.accept_waveform(sample);
-        match stream {
+        let state = recognizer.accept_waveform(sample);
+        match state {
             DecodingState::Finalized => {
-                println!("{:?}", recognizer.result().single());
+                println!("{:#?}", recognizer.result().single());
             }
             DecodingState::Running => {
-                println!("{:?}", recognizer.partial_result());
+                println!("{:#?}", recognizer.partial_result());
             }
             DecodingState::Failed => {
-                println!("an error occurred")
+                eprintln!("an error occurred")
             }
         }
     }
