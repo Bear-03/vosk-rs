@@ -17,7 +17,7 @@ fn main() {
     let model_path = args.next().expect("A model path was not provided");
     let wav_path = args
         .next()
-        .expect("A path for the wav file to be read was not provieded");
+        .expect("A path for the wav file to be read was not provided");
 
     let mut reader = WavReader::open(wav_path).expect("Could not create the WAV reader");
     let samples: Vec<i16> = reader.samples().filter_map(|s| s.ok()).collect();
