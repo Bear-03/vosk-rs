@@ -1,6 +1,7 @@
 //! Run with:
 //! cargo run --example grammar <model path> <wav path>
 //! e.g. "cargo run --example grammar /home/user/stt/model /home/user/stt/test.wav"
+//! (The WAV file must have signed 16-bit samples)
 //!
 //! Read the "Setup" section in the README to know how to link the vosk dynamic
 //! libaries to the examples
@@ -17,22 +18,27 @@ fn main() {
     let model_path = args.next().expect("A model path was not provided");
     let wav_path = args
         .next()
-        .expect("A path for the wav file to be read was not provided");
+        .expect("A path for the WAV file to be read was not provided");
 
     let mut reader = WavReader::open(wav_path).expect("Could not create the WAV reader");
-    let samples: Vec<i16> = reader.samples().filter_map(|s| s.ok()).collect();
+    let samples = reader
+        .samples()
+        .collect::<hound::Result<Vec<i16>>>()
+        .expect("Could not read WAV file");
 
     let model = Model::new(model_path).expect("Could not create the model");
 
     let mut recognizer = Recognizer::new_with_grammar(
         &model,
         reader.spec().sample_rate as f32,
-        // Provide a (comma separated) list of phrases to be recognized.
-        // Anything else will be returned as [unk]
-        &[
-            "oh one two three four five six seven eight nine zero",
-            "[unk]",
-        ],
+        // Provide a list of phrases to be recognized.
+        //
+        // If "[unk]" is added, it will be the fallback for any word that could not be recognized.
+        // Otherwise, the best match will be used in the result, even if it is most likely
+        // incorrect.
+        //
+        // Note that the words in a phrase can still be recognized separately
+        &["one two three four five six seven eight nine zero", "[unk]"],
     )
     .expect("Could not create the recognizer");
 
@@ -40,7 +46,7 @@ fn main() {
         let state = recognizer.accept_waveform(sample);
         match state {
             DecodingState::Finalized => {
-                println!("{:#?}", recognizer.result().single());
+                println!("{:#?}", recognizer.result().single().unwrap());
             }
             DecodingState::Running => {
                 println!("{:#?}", recognizer.partial_result());
