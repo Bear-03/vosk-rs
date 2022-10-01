@@ -175,7 +175,7 @@ impl Recognizer {
     /// [`CompleteResult::Multiple`]: crate::CompleteResult::Multiple
     /// [`CompleteResult::Single`]: crate::CompleteResult::Single
     pub fn set_words(&mut self, enable: bool) {
-        unsafe { vosk_recognizer_set_words(self.0.as_ptr(), if enable { 1 } else { 0 }) }
+        unsafe { vosk_recognizer_set_words(self.0.as_ptr(), i32::from(enable)) }
     }
 
     /// Like [`set_words`], but for [`PartialResult`].
@@ -186,7 +186,7 @@ impl Recognizer {
     /// [`PartialResult`]: crate::PartialResult
     /// [`Word`]: crate::Word
     pub fn set_partial_words(&mut self, enable: bool) {
-        unsafe { vosk_recognizer_set_partial_words(self.0.as_ptr(), if enable { 1 } else { 0 }) }
+        unsafe { vosk_recognizer_set_partial_words(self.0.as_ptr(), i32::from(enable)) }
     }
 
     /// Accept and process new chunk of voice data.
