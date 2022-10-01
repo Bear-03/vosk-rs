@@ -1,6 +1,6 @@
 [package]
 name = "vosk"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Bear_03"]
 description = "Safe wrapper around the Vosk API Speech Recognition Toolkit"
@@ -16,7 +16,6 @@ serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
 # Dependencies for examples
-cpal = "0.13"
+cpal = "0.14"
 dasp = "0.11"
-hound = "3.4"
-
+hound = "3.5"
