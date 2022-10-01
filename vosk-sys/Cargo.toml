@@ -1,6 +1,6 @@
 [package]
 name = "vosk-sys"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Bear_03"]
 description = "Raw FFI bindings around the Vosk API Speech Recognition Toolkit"
