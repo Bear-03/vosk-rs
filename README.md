@@ -34,7 +34,7 @@ println!("{:#?}", recognizer.final_result().multiple().unwrap());
 
 ### Compilation (dynamic libraries)
 
-The Vosk-API dynamic libraries have to be discoverable by the rust linker (static libraries are not available, except for [iOS](#compilation-dynamic-libraries)).
+The Vosk-API dynamic libraries have to be discoverable by the rust linker (static libraries are not available, except for [iOS](#compilation-static-libraries)).
 Download the zip file for your platform [here](https://github.com/alphacep/vosk-api/releases) and:
 
 #### Windows and Linux (Recommended)
