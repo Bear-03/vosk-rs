@@ -59,10 +59,10 @@ the developer to remember a terminal command or change anything outside the proj
 ##### Troubleshooting
 In real-world scenarios, one will use Rust to cross compile a library (e.g. Android and iOS). Therefore, we need both `cdylib` as well as the `staticlib` as crate-type. If you compile as usual with cargo build (e.g.: `cargo build --target aarch64-apple-ios --release`) it will not work, because cargo tries to build the dylib as well. Fortunately, since rust 1.64. there is a new option for [rustc](https://github.com/rust-lang/cargo/issues/10083) in the stable channel. Because of this, the following will work: `cargo rustc --crate-type staticlib --lib --target aarch64-apple-ios --release` 
 
-### Execution
-Dynamically compiled executable must have access to the vosk library at runtime, static prgrams do not.
+### Usage
+Executables compiled with a dynamic lib must have access to the vosk library at runtime. Executables compiled with a statically compiled library do not.
 
-#### Dynamically compiled executables
+#### Using dynamic libraries
 Do either of the following:
 
 -   **Recommended:** Copy the libraries to the root of the executable
@@ -74,7 +74,7 @@ Do either of the following:
     - Linux: Move them to `/usr/local/lib`, `/usr/lib` or set the `LD_LIBRARY_PATH` environment variable to the directory containing the libraries. Note: `LD_LIBRARY_PATH` is not the same as `LIBRARY_PATH` mentioned in the compilation step.
 
 
-#### Statically compiled executables (iOS-only)
+#### Using static libraries (iOS-only)
 
 - Add the compiled .a library (or libraries if you would like to support more than one architecture) to your iOS project
 - Set `Enable Bitcode` to **no** for your target
