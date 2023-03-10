@@ -36,7 +36,7 @@ println!("{:#?}", recognizer.final_result().multiple().unwrap());
 
 The Vosk-API libraries have to be discoverable by the rust linker. Download the zip file containing the dynamic libraries for your platform [here](https://github.com/alphacep/vosk-api/releases). For iOS development you have to use static libraries. Get the static libraries from the [vosk-api][vosk-api-ios] team.
 
-#### Dynamic library compilation
+#### Using dynamic libraries
 Do either of the following:
 
 - **Recommended:** Create a [build script][build-script-explanation] and provide cargo with the path to the libraries
@@ -50,7 +50,7 @@ Do either of the following:
 Although the approaches are equivalent, using a build script is more convenient because it does not require
 the developer to remember a terminal command or change anything outside the project scope.
 
-#### Static library compilation targeting iOS (macOS-only)
+#### Using static libraries (macOS-only, targeting iOS)
 
 - [Extract](https://llvm.org/docs/CommandGuide/llvm-lipo.html) the correct non-fat file (also called thin file) from the static fat file (libvosk.a) for each architecture you would like to support.
 - [Mark your crate type as](https://doc.rust-lang.org/cargo/reference/cargo-targets.html#the-crate-type-field) `staticlib`.
@@ -59,7 +59,7 @@ the developer to remember a terminal command or change anything outside the proj
 ##### Troubleshooting
 In real-world scenarios, one will use Rust to cross compile a library (e.g. Android and iOS). Therefore, we need both `cdylib` as well as the `staticlib` as crate-type. If you compile as usual with cargo build (e.g.: `cargo build --target aarch64-apple-ios --release`) it will not work, because cargo tries to build the dylib as well. Fortunately, since rust 1.64. there is a new option for [rustc](https://github.com/rust-lang/cargo/issues/10083) in the stable channel. Because of this, the following will work: `cargo rustc --crate-type staticlib --lib --target aarch64-apple-ios --release` 
 
-### Usage
+### Execution
 Executables compiled with a dynamic lib must have access to the vosk library at runtime. Executables compiled with a statically compiled library do not.
 
 #### Using dynamic libraries
