@@ -304,7 +304,7 @@ extern "C" {
     #[doc = " Creates the batch recognizer object"]
     #[doc = ""]
     #[doc = "  @returns model object or NULL if problem occured"]
-    pub fn vosk_batch_model_new() -> *mut VoskBatchModel;
+    pub fn vosk_batch_model_new(model_path: *const ::std::os::raw::c_char) -> *mut VoskBatchModel;
 
     #[doc = " Releases batch model object"]
     pub fn vosk_batch_model_free(model: *mut VoskBatchModel);
