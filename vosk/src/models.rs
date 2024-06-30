@@ -93,7 +93,7 @@ impl BatchModel {
         Some(Self(NonNull::new(model_ptr)?))
     }
 
-    /// Waits for BatchModel to finish processing input
+    /// Waits for inferencing to finish
     pub fn wait(&self) {
         unsafe { vosk_batch_model_wait(self.0.as_ptr()) };
     }

@@ -189,7 +189,7 @@ impl Recognizer {
         unsafe { vosk_recognizer_set_partial_words(self.0.as_ptr(), i32::from(enable)) }
     }
 
-    /// TODO
+    /// Enables or disables Natural Language Semantics Markup Language (NLSML) in the output
     pub fn set_nlsml(&mut self, enable: bool) {
         unsafe { vosk_recognizer_set_nlsml(self.0.as_ptr(), i32::from(enable)) }
     }
@@ -283,7 +283,8 @@ impl Drop for Recognizer {
     }
 }
 
-/// TODO
+/// The main object which processes data using GPU inferencing.
+/// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.
 pub struct BatchRecognizer(NonNull<VoskBatchRecognizer>);
 
 impl BatchRecognizer {
@@ -305,7 +306,7 @@ impl BatchRecognizer {
         Some(Self(NonNull::new(recognizer_ptr)?))
     }
 
-    /// TODO
+    /// Enables or disables Natural Language Semantics Markup Language (NLSML) in the output
     pub fn set_nlsml(&mut self, enable: bool) {
         unsafe { vosk_batch_recognizer_set_nlsml(self.0.as_ptr(), i32::from(enable)) }
     }
@@ -320,12 +321,12 @@ impl BatchRecognizer {
         };
     }
 
-    /// TODO
+    /// Closes the stream to the model
     pub fn finish_stream(&mut self) {
         unsafe { vosk_batch_recognizer_finish_stream(self.0.as_ptr()) };
     }
 
-    /// TODO
+    /// Gets the front of the result queue
     pub fn front_result(&mut self) -> Result<Word, serde_json::Error> {
         serde_json::from_str(
             unsafe { CStr::from_ptr(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
@@ -334,12 +335,12 @@ impl BatchRecognizer {
         )
     }
 
-    /// TODO
+    /// Removes the front of the result queue
     pub fn pop(&mut self) {
         unsafe { vosk_batch_recognizer_pop(self.0.as_ptr()) }
     }
 
-    /// TODO
+    /// Gets the number of chunks that have yet to be processed
     pub fn get_pending_chunks(&mut self) -> usize {
         (unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }) as usize
     }
