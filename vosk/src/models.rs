@@ -78,8 +78,10 @@ unsafe impl Send for SpeakerModel {}
 unsafe impl Sync for SpeakerModel {}
 
 /// The same as [`Model`], but uses a CUDA enabled Nvidia GPU and dynamic batching to enable higher throughput.
+#[cfg(feature = "cuda")]
 pub struct  BatchModel(pub(crate) NonNull<VoskBatchModel>);
 
+#[cfg(feature = "cuda")]
 impl BatchModel {
     /// Loads model data from the file and returns the model object, or [`None`]
     /// if a problem occured.
@@ -99,11 +101,14 @@ impl BatchModel {
     }
 }
 
+#[cfg(feature = "cuda")]
 impl Drop for BatchModel {
     fn drop(&mut self) {
         unsafe { vosk_batch_model_free(self.0.as_ptr()) }
     }
 }
 
+#[cfg(feature = "cuda")]
 unsafe impl Send for BatchModel {}
+#[cfg(feature = "cuda")]
 unsafe impl Sync for BatchModel {}

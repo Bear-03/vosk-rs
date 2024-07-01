@@ -1,4 +1,8 @@
-use crate::{BatchModel, Model, SpeakerModel};
+use crate::{Model, SpeakerModel};
+
+#[cfg(feature = "cuda")]
+use crate::BatchModel;
+
 use serde::Deserialize;
 use std::{
     ffi::{CStr, CString},
@@ -285,8 +289,10 @@ impl Drop for Recognizer {
 
 /// The main object which processes data using GPU inferencing.
 /// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.
+#[cfg(feature = "cuda")]
 pub struct BatchRecognizer(NonNull<VoskBatchRecognizer>);
 
+#[cfg(feature = "cuda")]
 impl BatchRecognizer {
 
     /// Creates the recognizer object. Returns [`None`] if a problem occured.
@@ -346,6 +352,7 @@ impl BatchRecognizer {
     }
 }
 
+#[cfg(feature = "cuda")]
 impl Drop for BatchRecognizer {
     fn drop(&mut self) {
         unsafe { vosk_batch_recognizer_free(self.0.as_ptr()) }
