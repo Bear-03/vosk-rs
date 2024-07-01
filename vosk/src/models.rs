@@ -77,7 +77,7 @@ impl Drop for SpeakerModel {
 unsafe impl Send for SpeakerModel {}
 unsafe impl Sync for SpeakerModel {}
 
-/// TODO
+/// The same as [`Model`], but uses a CUDA enabled Nvidia GPU and dynamic batching to enable higher throughput.
 pub struct  BatchModel(pub(crate) NonNull<VoskBatchModel>);
 
 impl BatchModel {
