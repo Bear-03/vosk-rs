@@ -4,10 +4,7 @@ use vosk_sys::*;
 #[derive(Debug, Default, Clone, Copy)]
 /// Log level for Kaldi messages.
 pub enum LogLevel {
-    /// Print Error, Warn, Info and Debug messages.
-    Debug,
-
-    /// Print Error, Warn, and Info, but not Debug messages (default).
+    /// Print Error, Warn, and Info (default)
     #[default]
     Info,
 
@@ -21,7 +18,6 @@ pub enum LogLevel {
 impl LogLevel {
     pub(self) fn to_c_int(self) -> c_int {
         match self {
-            Self::Debug => 1,
             Self::Info => 0,
             Self::Warn => -1,
             Self::Error => -2,
