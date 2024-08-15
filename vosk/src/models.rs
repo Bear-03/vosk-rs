@@ -79,7 +79,7 @@ unsafe impl Sync for SpeakerModel {}
 
 /// The same as [`Model`], but uses a CUDA enabled Nvidia GPU and dynamic batching to enable higher throughput.
 #[cfg(feature = "cuda")]
-pub struct  BatchModel(pub(crate) NonNull<VoskBatchModel>);
+pub struct BatchModel(pub(crate) NonNull<VoskBatchModel>);
 
 #[cfg(feature = "cuda")]
 impl BatchModel {
