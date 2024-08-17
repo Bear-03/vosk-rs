@@ -355,8 +355,8 @@ pub mod batch_recognizer {
         }
 
         /// Gets the number of chunks that have yet to be processed
-        pub fn get_pending_chunks(&mut self) -> usize {
-            (unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }) as usize
+        pub fn get_pending_chunks(&mut self) -> i32 {
+            (unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }) as i32
         }
     }
 
