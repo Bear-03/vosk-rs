@@ -3,3 +3,4 @@ members = [
     "vosk",
     "vosk-sys",
 ]
+resolver = "2"
