@@ -1,9 +1,7 @@
-use crate::BatchModel;
+use crate::{models::BatchModel, recognition::results::*};
 use vosk_sys::*;
 
 use std::{ffi::CStr, ptr::NonNull};
-
-pub use crate::recognition::results::*;
 
 /// The main object which processes data using GPU inferencing.
 /// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.

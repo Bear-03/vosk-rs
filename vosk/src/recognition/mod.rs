@@ -2,13 +2,12 @@ use std::os::raw::c_int;
 
 #[cfg(feature = "cuda")]
 mod batch;
-mod results;
 mod sequential;
+pub mod results;
 
 #[cfg(feature = "cuda")]
-pub use batch::*;
-pub use results::*;
-pub use sequential::*;
+pub use batch::BatchRecognizer;
+pub use sequential::Recognizer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 /// State of the decodification after processing a chunk of data.

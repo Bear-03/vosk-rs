@@ -1,3 +1,5 @@
+//! Results of a recognition
+
 use serde::{Deserialize, Serialize};
 
 /// A single word in a [`CompleteResultSingle`] and metadata about it.

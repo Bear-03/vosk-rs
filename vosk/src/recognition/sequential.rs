@@ -1,5 +1,5 @@
-use crate::{Model, SpeakerModel};
-use super::{DecodingState, CompleteResult, PartialResult};
+use crate::models::{Model, SpeakerModel};
+use super::{DecodingState, results::{CompleteResult, PartialResult}};
 
 use serde::Deserialize;
 use std::{
@@ -8,8 +8,6 @@ use std::{
     ptr::NonNull,
 };
 use vosk_sys::*;
-
-
 
 type ResultFn = unsafe extern "C" fn(*mut VoskRecognizer) -> *const c_char;
 
