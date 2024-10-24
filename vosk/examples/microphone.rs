@@ -55,21 +55,31 @@ fn main() {
 
     let recognizer_clone = recognizer.clone();
     let stream = match config.sample_format() {
-        SampleFormat::F32 => audio_input_device.build_input_stream(
+        SampleFormat::I8 => audio_input_device.build_input_stream(
             &config.into(),
-            move |data: &[f32], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
+            move |data: &[i8], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
-        ),
-        SampleFormat::U16 => audio_input_device.build_input_stream(
-            &config.into(),
-            move |data: &[u16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
-            err_fn,
+            None,
         ),
         SampleFormat::I16 => audio_input_device.build_input_stream(
             &config.into(),
             move |data: &[i16], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
             err_fn,
+            None,
         ),
+        SampleFormat::I32 => audio_input_device.build_input_stream(
+            &config.into(),
+            move |data: &[i32], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
+            err_fn,
+            None,
+        ),
+        SampleFormat::F32 => audio_input_device.build_input_stream(
+            &config.into(),
+            move |data: &[f32], _| recognize(&mut recognizer_clone.lock().unwrap(), data, channels),
+            err_fn,
+            None,
+        ),
+        sample_format => panic!("Unsupported sample format '{sample_format}'"),
     }
     .expect("Could not build stream");
 
