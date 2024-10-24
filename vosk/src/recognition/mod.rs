@@ -1,11 +1,11 @@
 use std::os::raw::c_int;
 
-#[cfg(feature = "cuda")]
+#[cfg(feature = "batch")]
 mod batch;
 mod sequential;
 pub mod results;
 
-#[cfg(feature = "cuda")]
+#[cfg(feature = "batch")]
 pub use batch::BatchRecognizer;
 pub use sequential::Recognizer;
 

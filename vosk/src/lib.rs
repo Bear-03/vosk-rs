@@ -8,8 +8,8 @@
 //! * Get the processed result with [`Recognizer::result`],
 //! [`Recognizer::partial_result`] or [`Recognizer::final_result`]
 
-#[cfg(feature = "cuda")]
-mod cuda;
+#[cfg(feature = "batch")]
+mod batch;
 mod log;
 mod models;
 mod recognition;

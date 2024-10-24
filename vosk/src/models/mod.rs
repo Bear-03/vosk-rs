@@ -1,7 +1,7 @@
-#[cfg(feature = "cuda")]
+#[cfg(feature = "batch")]
 mod batch;
 mod sequential;
 
-#[cfg(feature = "cuda")]
+#[cfg(feature = "batch")]
 pub use batch::BatchModel;
 pub use sequential::{Model, SpeakerModel};

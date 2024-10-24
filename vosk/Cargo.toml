@@ -21,4 +21,4 @@ dasp = "0.11"
 hound = "3.5"
 
 [features]
-cuda = []
+batch = []
