@@ -9,7 +9,7 @@
 use std::env;
 
 use hound::WavReader;
-use vosk::prelude::{Model, Recognizer};
+use vosk::{Model, Recognizer};
 
 fn main() {
     let mut args = env::args();

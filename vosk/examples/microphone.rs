@@ -16,7 +16,7 @@ use cpal::{
     ChannelCount, SampleFormat,
 };
 use dasp::{sample::ToSample, Sample};
-use vosk::prelude::{DecodingState, Model, Recognizer};
+use vosk::{DecodingState, Model, Recognizer};
 
 fn main() {
     let mut args = env::args();
