@@ -1,5 +1,8 @@
+use super::{
+    results::{CompleteResult, PartialResult},
+    DecodingState,
+};
 use crate::models::{Model, SpeakerModel};
-use super::{DecodingState, results::{CompleteResult, PartialResult}};
 
 use serde::Deserialize;
 use std::{
@@ -21,10 +24,10 @@ impl Recognizer {
     /// The recognizers process the speech and return text using shared model data.
     ///
     /// * `model` - [`Model`] containing static data for recognizer. Model can be shared
-    /// across recognizers, even running in different threads.
+    ///   across recognizers, even running in different threads.
     ///
     /// * `sample_rate` - The sample rate of the audio you going to feed into the recognizer.
-    /// Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
+    ///   Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
     ///
     /// [`Model`]: crate::Model
     #[must_use]
@@ -39,11 +42,11 @@ impl Recognizer {
     /// text but also return speaker vectors one can use for speaker identification
     ///
     /// * `model` - [`Model`] containing the data for recognizer. Model can be
-    /// shared across recognizers, even running in different threads.
+    ///   shared across recognizers, even running in different threads.
     ///
     /// * `sample_rate` - The sample rate of the audio you going to feed into the recognizer.
-    /// Make sure this rate matches the audio content, it is a common
-    /// issue causing accuracy problems.
+    ///   Make sure this rate matches the audio content, it is a common
+    ///   issue causing accuracy problems.
     ///
     /// * `spk_model` - Speaker model for speaker identification.
     ///
@@ -73,10 +76,10 @@ impl Recognizer {
     /// Precompiled HCLG graph models are not supported.
     ///
     /// * `model` - [`Model`] containing the data for recognizer. Model can be shared
-    /// across recognizers, even running in different threads.
+    ///   across recognizers, even running in different threads.
     ///
     /// * `sample_rate` - The sample rate of the audio you going to feed into the recognizer.
-    /// Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
+    ///   Make sure this rate matches the audio content, it is a common issue causing accuracy problems.
     ///
     /// * `grammar` - The list of phrases to recognize.
     ///

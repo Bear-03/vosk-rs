@@ -2,11 +2,12 @@ use std::os::raw::c_int;
 
 #[cfg(feature = "batch")]
 mod batch;
+mod results;
 mod sequential;
-pub mod results;
 
 #[cfg(feature = "batch")]
 pub use batch::BatchRecognizer;
+pub use results::*;
 pub use sequential::Recognizer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

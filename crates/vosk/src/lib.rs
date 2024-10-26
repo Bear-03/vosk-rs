@@ -6,7 +6,7 @@
 //! * Create a [`Recognizer`] with that model
 //! * Feel audio to the recognizer with [`Recognizer::accept_waveform`]
 //! * Get the processed result with [`Recognizer::result`],
-//! [`Recognizer::partial_result`] or [`Recognizer::final_result`]
+//!   [`Recognizer::partial_result`] or [`Recognizer::final_result`]
 
 #[cfg(feature = "batch")]
 mod gpu;
@@ -14,4 +14,6 @@ mod log;
 mod models;
 mod recognition;
 
-pub use crate::{log::*, models::*, recognition::{*, results::*}};
+pub use crate::{log::*, models::*, recognition::*};
+#[cfg(feature = "batch")]
+pub use gpu::*;
