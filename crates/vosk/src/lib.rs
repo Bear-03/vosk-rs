@@ -9,7 +9,7 @@
 //! [`Recognizer::partial_result`] or [`Recognizer::final_result`]
 
 #[cfg(feature = "batch")]
-mod batch;
+mod gpu;
 mod log;
 mod models;
 mod recognition;
