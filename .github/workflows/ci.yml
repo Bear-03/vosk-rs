@@ -10,69 +10,44 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  APT_DEPS: libasound2-dev # cpal dependency
+  NIX_DEV: nix develop --command
+  CARGO_FLAGS: --all-targets --all-features
 
 jobs:
   rustfmt:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: rustfmt
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@v8
       - name: Run rustfmt
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+        run: $NIX_DEV cargo fmt --all -- --check
 
   clippy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Install apt packages
-        run: sudo apt install ${{ env.APT_DEPS }}
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: clippy
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@v8
       - name: Run clippy
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --workspace --all-targets --all-features -- -D warnings
+        run: $NIX_DEV cargo clippy --workspace $CARGO_FLAGS -- -D warnings
 
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        toolchain:
-          - stable
-          - beta
-          - nightly
     steps:
-    - uses: actions/checkout@v3
-    - name: Install apt packages
-      run: sudo apt install ${{ env.APT_DEPS }}
-    - name: Download libraries
-      run: wget https://github.com/alphacep/vosk-api/releases/download/v0.3.42/vosk-linux-x86_64-0.3.42.zip -O libs.zip
-    - name: Extract libraries
-      run: sudo unzip -j libs.zip -d /lib
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: ${{ matrix.toolchain }}
-        override: true
-    - name: Build
-      run: cargo build
-    - name: Run tests
-      run: cargo test
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Build
+        run: $NIX_DEV cargo build $CARGO_FLAGS
+      - name: Run tests
+        run: $NIX_DEV cargo test $CARGO_FLAGS
