@@ -1,6 +1,5 @@
 [workspace]
 members = [
-    "vosk",
-    "vosk-sys",
+    "crates/*"
 ]
 resolver = "2"
