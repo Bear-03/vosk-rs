@@ -1,3 +1,4 @@
+
 use super::{
     errors::AcceptWaveformError,
     results::{result_from_json_c_str, Word},
@@ -29,7 +30,7 @@ impl BatchRecognizer {
         Some(Self(NonNull::new(recognizer_ptr)?))
     }
 
-    /// Enables or disables Natural Language Semantics Markup Language (NLSML) in the output
+    /// Enables or disables Natural Language Semantics Markup Language (NLSML) in the output.
     pub fn set_nlsml(&mut self, enable: bool) {
         unsafe { vosk_batch_recognizer_set_nlsml(self.0.as_ptr(), i32::from(enable)) }
     }
@@ -51,22 +52,22 @@ impl BatchRecognizer {
         Ok(())
     }
 
-    /// Closes the stream to the model
+    /// Closes the stream to the model.
     pub fn finish_stream(&mut self) {
         unsafe { vosk_batch_recognizer_finish_stream(self.0.as_ptr()) };
     }
 
-    /// Gets the front of the result queue
+    /// Gets the front of the result queue.
     pub fn front_result(&mut self) -> Word {
         unsafe { result_from_json_c_str(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
     }
 
-    /// Removes the front of the result queue
+    /// Removes the front of the result queue.
     pub fn pop(&mut self) {
         unsafe { vosk_batch_recognizer_pop(self.0.as_ptr()) }
     }
 
-    /// Gets the number of chunks that have yet to be processed
+    /// Gets the number of chunks that have yet to be processed.
     pub fn get_pending_chunks(&mut self) -> u32 {
         // UNWRAP: A "count" of chunks will never be negative
         u32::try_from(unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }).unwrap()

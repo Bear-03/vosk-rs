@@ -1,7 +1,10 @@
 use std::{ffi::CString, ptr::NonNull};
 use vosk_sys::*;
 
-/// The same as [`Model`], but uses a CUDA enabled Nvidia GPU and dynamic batching to enable higher throughput.
+/// The same as [`Model`], but uses
+/// a CUDA enabled Nvidia GPU and dynamic batching to enable higher throughput.
+///
+/// [`Model`]: super::sequential::Model
 pub struct BatchModel(pub(crate) NonNull<VoskBatchModel>);
 
 impl BatchModel {
