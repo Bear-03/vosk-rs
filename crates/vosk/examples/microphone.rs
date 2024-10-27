@@ -104,7 +104,7 @@ fn recognize<T: Sample + ToSample<i16>>(
         data
     };
 
-    let state = recognizer.accept_waveform(&data);
+    let state = recognizer.accept_waveform(&data).unwrap();
     match state {
         DecodingState::Running => {
             println!("partial: {:#?}", recognizer.partial_result());

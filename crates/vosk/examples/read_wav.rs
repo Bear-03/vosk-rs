@@ -35,7 +35,7 @@ fn main() {
     recognizer.set_partial_words(true);
 
     for sample in samples.chunks(100) {
-        recognizer.accept_waveform(sample);
+        recognizer.accept_waveform(sample).unwrap();
         println!("{:#?}", recognizer.partial_result());
     }
 

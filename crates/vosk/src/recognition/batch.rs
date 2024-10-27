@@ -1,7 +1,11 @@
-use crate::{models::BatchModel, recognition::results::result_from_json_cstr};
+use super::{
+    errors::AcceptWaveformError,
+    results::{result_from_json_cstr, Word},
+};
+use crate::models::BatchModel;
 use vosk_sys::*;
 
-use std::{ffi::CStr, ptr::NonNull};
+use std::ptr::NonNull;
 
 /// The main object which processes data using GPU inferencing.
 /// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.
@@ -33,10 +37,18 @@ impl BatchRecognizer {
     /// Accept and process new chunk of voice data.
     ///
     /// * `data` - Audio data in PCM 16-bit mono format as an array of i8.
-    pub fn accept_waveform(&mut self, data: &[i8]) {
+    pub fn accept_waveform(&mut self, data: &[i8]) -> Result<(), AcceptWaveformError>{
+        let len = data.len();
+
         unsafe {
-            vosk_batch_recognizer_accept_waveform(self.0.as_ptr(), data.as_ptr(), data.len() as i32)
+            vosk_batch_recognizer_accept_waveform(
+                self.0.as_ptr(),
+                data.as_ptr(),
+                i32::try_from(len).map_err(|_| AcceptWaveformError::BufferTooBig(len))?,
+            )
         };
+
+        Ok(())
     }
 
     /// Closes the stream to the model
@@ -56,7 +68,7 @@ impl BatchRecognizer {
 
     /// Gets the number of chunks that have yet to be processed
     pub fn get_pending_chunks(&mut self) -> u32 {
-        // UNWRAP: Using u32 because a "count" of chunks will never be negative
+        // UNWRAP: A "count" of chunks will never be negative
         u32::try_from(unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }).unwrap()
     }
 }

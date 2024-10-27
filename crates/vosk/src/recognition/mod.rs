@@ -4,10 +4,12 @@ use std::os::raw::c_int;
 mod batch;
 mod results;
 mod sequential;
+mod errors;
 
 #[cfg(feature = "batch")]
 pub use batch::BatchRecognizer;
 pub use results::*;
+pub use errors::*;
 pub use sequential::Recognizer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -43,7 +43,7 @@ fn main() {
     .expect("Could not create the recognizer");
 
     for sample in samples.chunks(4000) {
-        let state = recognizer.accept_waveform(sample);
+        let state = recognizer.accept_waveform(sample).unwrap();
         match state {
             DecodingState::Finalized => {
                 println!("{:#?}", recognizer.result().single().unwrap());

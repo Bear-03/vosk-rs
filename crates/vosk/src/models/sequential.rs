@@ -29,7 +29,7 @@ impl Model {
     ///
     /// Word symbol `0` is for `<epsilon>`.
     #[must_use]
-    pub fn find_word(&mut self, word: &str) -> Option<u16> {
+    pub fn find_word(&mut self, word: &str) -> Option<u32> {
         let word_c = CString::new(word).ok()?;
 
         let symbol = unsafe { vosk_model_find_word(self.0.as_ptr(), word_c.as_ptr()) };
@@ -37,7 +37,8 @@ impl Model {
         if symbol == -1 {
             None
         } else {
-            Some(symbol as u16)
+            // UNWRAP: the only negative symbol possible was -1
+            Some(u32::try_from(symbol).unwrap())
         }
     }
 }

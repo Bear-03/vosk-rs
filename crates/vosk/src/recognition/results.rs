@@ -188,6 +188,7 @@ pub struct PartialResult<'a> {
 /// Generic function to retrieve a given type of result from the recognizer.
 pub(super) unsafe fn result_from_json_cstr<'de, T: Deserialize<'de>>(ptr: *const c_char) -> T {
     // UNWRAP: Panics in here will never be the caller's fault, but rather some
-    // edge case that was not thought of, so it does not make sense to return a Result.
+    // edge case that was not thought of and should be reported, so it does not
+    // make sense to return a Result.
     serde_json::from_str(CStr::from_ptr(ptr).to_str().unwrap()).unwrap()
 }

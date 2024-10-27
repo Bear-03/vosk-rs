@@ -1,6 +1,5 @@
 use super::{
-    results::{result_from_json_cstr, CompleteResult, PartialResult},
-    DecodingState,
+    result_from_json_cstr, AcceptWaveformError, CompleteResult, DecodingState, PartialResult,
 };
 use crate::models::{Model, SpeakerModel};
 
@@ -171,17 +170,23 @@ impl Recognizer {
     ///
     /// Returns a [`DecodingState`], which represents the state of the decodification
     /// after this chunk of data has been processed.
-    pub fn accept_waveform(&mut self, data: &[i16]) -> DecodingState {
+    pub fn accept_waveform(&mut self, data: &[i16]) -> Result<DecodingState, AcceptWaveformError> {
         // vosk_recognizer_accept_waveform and vosk_recognizer_accept_waveform_f are meant
         // to be used by languages that do not have an i16 type (those functions also take PCM 16-bit audio,
         // but represented as an f32 or i8). Those extra functions aren't needed in rust so they
         // will not be wrapped
 
+        let len = data.len();
+
         let decoding_state = unsafe {
-            vosk_recognizer_accept_waveform_s(self.0.as_ptr(), data.as_ptr(), data.len() as i32)
+            vosk_recognizer_accept_waveform_s(
+                self.0.as_ptr(),
+                data.as_ptr(),
+                i32::try_from(len).map_err(|_| AcceptWaveformError::BufferTooBig(len))?,
+            )
         };
 
-        DecodingState::from_c_int(decoding_state)
+        Ok(DecodingState::from_c_int(decoding_state))
     }
 
     /// Returns speech recognition result, waiting for silence (see [`DecodingState::Finalized`]) to give a result.
