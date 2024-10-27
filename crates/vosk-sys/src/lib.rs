@@ -54,7 +54,7 @@ extern "C" {
     #[doc = " @param word: the word"]
     #[doc = " @returns the word symbol if @param word exists inside the model"]
     #[doc = " or -1 otherwise."]
-    #[doc = " Reminding that word symbol 0 is for <epsilon>"]
+    #[doc = " Reminding that word symbol 0 is for \\<epsilon\\>"]
     pub fn vosk_model_find_word(
         model: *mut VoskModel,
         word: *const ::std::os::raw::c_char,
