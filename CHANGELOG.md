@@ -1,5 +1,5 @@
 # 0.3.1
-* Fix flag-enabled items not showing up on docs.rs
+* Fix flag-enabled items not showing up on [docs.rs](https://docs.rs/vosk/0.3.0/vosk/index.html).
 
 # 0.3.0
 * Add support for Batch recognition ([PR](https://github.com/Bear-03/vosk-rs/pull/8)).
