@@ -1,4 +1,3 @@
-
 use super::{
     errors::AcceptWaveformError,
     results::{result_from_json_c_str, Word},
