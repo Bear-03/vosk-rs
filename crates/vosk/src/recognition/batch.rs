@@ -37,7 +37,7 @@ impl BatchRecognizer {
     /// Accept and process new chunk of voice data.
     ///
     /// * `data` - Audio data in PCM 16-bit mono format as an array of i8.
-    pub fn accept_waveform(&mut self, data: &[i8]) -> Result<(), AcceptWaveformError>{
+    pub fn accept_waveform(&mut self, data: &[i8]) -> Result<(), AcceptWaveformError> {
         let len = data.len();
 
         unsafe {

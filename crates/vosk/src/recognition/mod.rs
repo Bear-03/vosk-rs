@@ -2,14 +2,14 @@ use std::os::raw::c_int;
 
 #[cfg(feature = "batch")]
 mod batch;
+mod errors;
 mod results;
 mod sequential;
-mod errors;
 
 #[cfg(feature = "batch")]
 pub use batch::BatchRecognizer;
-pub use results::*;
 pub use errors::*;
+pub use results::*;
 pub use sequential::Recognizer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
