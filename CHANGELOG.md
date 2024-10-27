@@ -1,3 +1,6 @@
+# 0.3.1
+* Fix flag-enabled items not showing up on docs.rs
+
 # 0.3.0
 * Add support for Batch recognition ([PR](https://github.com/Bear-03/vosk-rs/pull/8)).
 * [BREAKING] Redesign `LogLevel` to adequately represent Kaldi log levels ([PR](https://github.com/Bear-03/vosk-rs/pull/9)).
