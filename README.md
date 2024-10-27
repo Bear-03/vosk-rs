@@ -57,7 +57,7 @@ the developer to remember a terminal command or change anything outside the proj
 - Create a [build script][build-script-explanation] and provide cargo with the path to the libraries with `cargo:rustc-link-search=` and `cargo:rustc-link-lib=static=`.
 
 ##### Troubleshooting
-In real-world scenarios, one will use Rust to cross compile a library (e.g. Android and iOS). Therefore, we need both `cdylib` as well as the `staticlib` as crate-type. If you compile as usual with cargo build (e.g.: `cargo build --target aarch64-apple-ios --release`) it will not work, because cargo tries to build the dylib as well. Fortunately, since rust 1.64. there is a new option for [rustc](https://github.com/rust-lang/cargo/issues/10083) in the stable channel. Because of this, the following will work: `cargo rustc --crate-type staticlib --lib --target aarch64-apple-ios --release` 
+In real-world scenarios, one will use Rust to cross compile a library (e.g. Android and iOS). Therefore, we need both `cdylib` as well as the `staticlib` as crate-type. If you compile as usual with cargo build (e.g.: `cargo build --target aarch64-apple-ios --release`) it will not work, because cargo tries to build the dylib as well. Fortunately, since rust 1.64. there is a new option for [rustc](https://github.com/rust-lang/cargo/issues/10083) in the stable channel. Because of this, the following will work: `cargo rustc --crate-type staticlib --lib --target aarch64-apple-ios --release`
 
 ### Execution
 Executables compiled with a dynamic lib must have access to the vosk library at runtime. Executables compiled with a statically compiled library do not.

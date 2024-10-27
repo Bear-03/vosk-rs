@@ -37,7 +37,7 @@ impl Model {
         if symbol == -1 {
             None
         } else {
-            // UNWRAP: the only negative symbol possible was -1
+            // UNWRAP: the only possible negative symbol was -1
             Some(u32::try_from(symbol).unwrap())
         }
     }
