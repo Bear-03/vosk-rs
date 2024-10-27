@@ -1,6 +1,6 @@
 use super::{
     errors::AcceptWaveformError,
-    results::{result_from_json_cstr, Word},
+    results::{result_from_json_c_str, Word},
 };
 use crate::models::BatchModel;
 use vosk_sys::*;
@@ -58,7 +58,7 @@ impl BatchRecognizer {
 
     /// Gets the front of the result queue
     pub fn front_result(&mut self) -> Word {
-        unsafe { result_from_json_cstr(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
+        unsafe { result_from_json_c_str(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
     }
 
     /// Removes the front of the result queue

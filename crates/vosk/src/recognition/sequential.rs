@@ -1,5 +1,5 @@
 use super::{
-    result_from_json_cstr, AcceptWaveformError, CompleteResult, DecodingState, PartialResult,
+    result_from_json_c_str, AcceptWaveformError, CompleteResult, DecodingState, PartialResult,
 };
 use crate::models::{Model, SpeakerModel};
 
@@ -203,7 +203,7 @@ impl Recognizer {
     /// [`CompleteResult::Single`]: crate::CompleteResult::Single
     #[must_use]
     pub fn result(&mut self) -> CompleteResult {
-        unsafe { result_from_json_cstr(vosk_recognizer_result(self.0.as_ptr())) }
+        unsafe { result_from_json_c_str(vosk_recognizer_result(self.0.as_ptr())) }
     }
 
     /// Returns partial speech recognition, which is not yet finalized and may change after
@@ -214,7 +214,7 @@ impl Recognizer {
     /// [`set_partial_words`]: Self::set_partial_words
     #[must_use]
     pub fn partial_result(&mut self) -> PartialResult {
-        unsafe { result_from_json_cstr(vosk_recognizer_partial_result(self.0.as_ptr())) }
+        unsafe { result_from_json_c_str(vosk_recognizer_partial_result(self.0.as_ptr())) }
     }
 
     /// Returns speech recognition result. Like [`result`] but it does not
@@ -223,7 +223,7 @@ impl Recognizer {
     /// [`result`]: Self::result
     #[must_use]
     pub fn final_result(&mut self) -> CompleteResult {
-        unsafe { result_from_json_cstr(vosk_recognizer_final_result(self.0.as_ptr())) }
+        unsafe { result_from_json_c_str(vosk_recognizer_final_result(self.0.as_ptr())) }
     }
 
     /// Resets current results and data so the recognition can continue from scratch
