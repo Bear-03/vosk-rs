@@ -9,5 +9,5 @@ pub enum AcceptWaveformError {
         "the length of the provided audio buffer was {0} (expected < {})",
         i32::MAX
     )]
-    BufferTooBig(usize),
+    BufferTooLong(usize),
 }

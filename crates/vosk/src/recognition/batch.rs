@@ -44,7 +44,7 @@ impl BatchRecognizer {
             vosk_batch_recognizer_accept_waveform(
                 self.0.as_ptr(),
                 data.as_ptr(),
-                i32::try_from(len).map_err(|_| AcceptWaveformError::BufferTooBig(len))?,
+                i32::try_from(len).map_err(|_| AcceptWaveformError::BufferTooLong(len))?,
             )
         };
 
