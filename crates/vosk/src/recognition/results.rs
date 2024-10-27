@@ -1,5 +1,7 @@
 //! Results of a recognition
 
+use std::ffi::{c_char, CStr};
+
 use serde::{Deserialize, Serialize};
 
 /// A single word in a [`CompleteResultSingle`] and metadata about it.
@@ -181,4 +183,11 @@ pub struct PartialResult<'a> {
     /// [`Recognizer::set_partial_words`]: crate::Recognizer::set_partial_words
     #[serde(default)]
     pub partial_result: Vec<Word<'a>>,
+}
+
+/// Generic function to retrieve a given type of result from the recognizer.
+pub(super) unsafe fn result_from_json_cstr<'de, T: Deserialize<'de>>(ptr: *const c_char) -> T {
+    // UNWRAP: Panics in here will never be the caller's fault, but rather some
+    // edge case that was not thought of, so it does not make sense to return a Result.
+    serde_json::from_str(CStr::from_ptr(ptr).to_str().unwrap()).unwrap()
 }

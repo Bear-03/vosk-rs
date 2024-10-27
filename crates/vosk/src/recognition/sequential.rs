@@ -1,18 +1,11 @@
 use super::{
-    results::{CompleteResult, PartialResult},
+    results::{result_from_json_cstr, CompleteResult, PartialResult},
     DecodingState,
 };
 use crate::models::{Model, SpeakerModel};
 
-use serde::Deserialize;
-use std::{
-    ffi::{CStr, CString},
-    os::raw::{c_char, c_int},
-    ptr::NonNull,
-};
+use std::{ffi::CString, os::raw::c_int, ptr::NonNull};
 use vosk_sys::*;
-
-type ResultFn = unsafe extern "C" fn(*mut VoskRecognizer) -> *const c_char;
 
 /// The main object which processes data.
 /// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.
@@ -205,7 +198,7 @@ impl Recognizer {
     /// [`CompleteResult::Single`]: crate::CompleteResult::Single
     #[must_use]
     pub fn result(&mut self) -> CompleteResult {
-        self.result_with_function(vosk_recognizer_result)
+        unsafe { result_from_json_cstr(vosk_recognizer_result(self.0.as_ptr())) }
     }
 
     /// Returns partial speech recognition, which is not yet finalized and may change after
@@ -216,7 +209,7 @@ impl Recognizer {
     /// [`set_partial_words`]: Self::set_partial_words
     #[must_use]
     pub fn partial_result(&mut self) -> PartialResult {
-        self.result_with_function(vosk_recognizer_partial_result)
+        unsafe { result_from_json_cstr(vosk_recognizer_partial_result(self.0.as_ptr())) }
     }
 
     /// Returns speech recognition result. Like [`result`] but it does not
@@ -225,20 +218,7 @@ impl Recognizer {
     /// [`result`]: Self::result
     #[must_use]
     pub fn final_result(&mut self) -> CompleteResult {
-        self.result_with_function(vosk_recognizer_final_result)
-    }
-
-    /// Generic function to retrieve a given type of result from the recognizer.
-    fn result_with_function<'de, T: Deserialize<'de>>(&mut self, function: ResultFn) -> T {
-        // Panics in the result functions will never be the caller's fault, but rather some
-        // edge case that was not thought of, so it does not make sense to return a Result.
-
-        serde_json::from_str(
-            unsafe { CStr::from_ptr(function(self.0.as_ptr())) }
-                .to_str()
-                .unwrap(),
-        )
-        .unwrap()
+        unsafe { result_from_json_cstr(vosk_recognizer_final_result(self.0.as_ptr())) }
     }
 
     /// Resets current results and data so the recognition can continue from scratch

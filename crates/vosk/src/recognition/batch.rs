@@ -1,11 +1,10 @@
-use crate::{models::BatchModel, recognition::results::*};
+use crate::{models::BatchModel, recognition::results::result_from_json_cstr};
 use vosk_sys::*;
 
 use std::{ffi::CStr, ptr::NonNull};
 
 /// The main object which processes data using GPU inferencing.
 /// Takes audio as input and returns decoded information as words, confidences, times, and other metadata.
-
 pub struct BatchRecognizer(std::ptr::NonNull<VoskBatchRecognizer>);
 
 impl BatchRecognizer {
@@ -46,12 +45,8 @@ impl BatchRecognizer {
     }
 
     /// Gets the front of the result queue
-    pub fn front_result(&mut self) -> Result<Word, serde_json::Error> {
-        serde_json::from_str(
-            unsafe { CStr::from_ptr(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
-                .to_str()
-                .unwrap(),
-        )
+    pub fn front_result(&mut self) -> Word {
+        unsafe { result_from_json_cstr(vosk_batch_recognizer_front_result(self.0.as_ptr())) }
     }
 
     /// Removes the front of the result queue
@@ -60,8 +55,9 @@ impl BatchRecognizer {
     }
 
     /// Gets the number of chunks that have yet to be processed
-    pub fn get_pending_chunks(&mut self) -> i32 {
-        (unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }) as i32
+    pub fn get_pending_chunks(&mut self) -> u32 {
+        // UNWRAP: Using u32 because a "count" of chunks will never be negative
+        u32::try_from(unsafe { vosk_batch_recognizer_get_pending_chunks(self.0.as_ptr()) }).unwrap()
     }
 }
 
