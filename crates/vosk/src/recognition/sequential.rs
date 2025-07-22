@@ -195,7 +195,7 @@ impl Recognizer {
     /// if [`set_max_alternatives`] was passed a 0 (default), and
     /// [`CompleteResult::Multiple`] otherwise.
     ///
-    /// If words are enabled (see [`set_words`]), it also returns metadata abut the words.
+    /// If words are enabled (see [`set_words`]), it also returns metadata about the words.
     ///
     /// [`set_max_alternatives`]: Self::set_max_alternatives
     /// [`set_words`]: Self::set_words
@@ -209,7 +209,7 @@ impl Recognizer {
     /// Returns partial speech recognition, which is not yet finalized and may change after
     /// processing more data.
     ///
-    /// If words are enabled (see [`set_partial_words`]), it also returns metadata abut the words.
+    /// If words are enabled (see [`set_partial_words`]), it also returns metadata about the words.
     ///
     /// [`set_partial_words`]: Self::set_partial_words
     #[must_use]
